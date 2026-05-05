@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rozpočet</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f6f3;
+  --ink: #1a1a1a;
+  --muted: #8a8a8a;
+  --line: #e2e0db;
+  --white: #ffffff;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+  padding: 48px 20px 80px;
+}
+.wrap { max-width: 560px; margin: 0 auto; }
+
+/* Header */
+h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.sub { color: var(--muted); font-size: 13px; margin-bottom: 36px; }
+
+/* Salary */
+.salary-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+.salary-label { color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+#salary {
+  flex: 1; border: none; background: transparent;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.9rem; color: var(--ink);
+  outline: none; text-align: right; min-width: 0;
+}
+#salary::placeholder { color: var(--line); }
+.salary-unit { color: var(--muted); font-size: 14px; }
+
+/* Progress */
+.prog-wrap { margin-bottom: 32px; }
+.prog-bar { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+.prog-fill { height: 100%; background: var(--ink); border-radius: 4px; width: 0%; transition: width .25s ease; }
+.prog-fill.over { background: #c0392b; }
+.prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.prog-meta b { color: var(--ink); }
+.prog-meta .warn { color: #c0392b; font-weight: 600; }
+
+/* Section */
+.sec { margin-bottom: 28px; }
+.sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.sec-title { font-size: 11px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.sec-sum { font-size: 13px; font-weight: 600; }
+
+/* Item rows */
+.items { display: flex; flex-direction: column; gap: 2px; }
+.item {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 100px 28px;
+  align-items: center;
+  padding: 0 6px 0 14px;
+  gap: 4px;
+  transition: border-color .15s;
+}
+.item:focus-within { border-color: #bbb; }
+.item-name {
+  border: none; background: transparent;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px; color: var(--ink);
+  outline: none; padding: 11px 0; min-width: 0;
+}
+.item-name::placeholder { color: var(--line); }
+.item-amount-wrap { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+.item-num {
+  border: none; background: transparent;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px; font-weight: 500; color: var(--ink);
+  outline: none; text-align: right; width: 70px; padding: 11px 0;
+}
+.item-num::placeholder { color: var(--line); }
+.item-kc { font-size: 11px; color: var(--muted); }
+.del { background: none; border: none; color: var(--line); cursor: pointer; font-size: 16px; padding: 6px 4px; border-radius: 4px; transition: color .15s; line-height: 1; }
+.del:hover { color: #c0392b; }
+.add-btn {
+  margin-top: 4px; background: none;
+  border: 1px dashed var(--line); border-radius: 8px;
+  color: var(--muted); cursor: pointer;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px; padding: 8px 14px; width: 100%; text-align: left;
+  transition: border-color .15s, color .15s;
+}
+.add-btn:hover { border-color: #aaa; color: var(--ink); }
+
+/* Alloc block */
+.alloc-block {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px; overflow: hidden;
+}
+.alloc-row {
+  display: grid;
+  grid-template-columns: 10px 1fr 80px 80px 24px;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.alloc-row:last-child { border-bottom: none; }
+.alloc-row:focus-within { background: #fafaf8; }
+.a-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.a-name-col { display: flex; flex-direction: column; min-width: 0; }
+.a-name {
+  border: none; background: transparent;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px; font-weight: 500; color: var(--ink);
+  outline: none; width: 100%;
+}
+.a-czk { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.a-pct-wrap { display: flex; align-items: center; gap: 2px; justify-content: flex-end; }
+.a-pct-in {
+  border: none; background: transparent;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  outline: none; text-align: right; width: 36px;
+}
+.a-pct-sign { font-size: 12px; color: var(--muted); }
+.a-slider {
+  -webkit-appearance: none; width: 100%; height: 3px;
+  border-radius: 3px; background: var(--line); outline: none; cursor: pointer;
+}
+.a-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 13px; height: 13px;
+  border-radius: 50%; background: var(--ink); cursor: pointer;
+  transition: transform .15s;
+}
+.a-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+
+/* Summary */
+.summary {
+  background: var(--ink); color: var(--white);
+  border-radius: 10px; padding: 20px 22px;
+}
+.s-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid #2e2e2e; }
+.s-row:last-child { border-bottom: none; padding-top: 14px; margin-top: 4px; }
+.s-row:last-child .s-lbl { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #888; font-weight: 600; }
+.s-row:last-child .s-val { font-family: 'Instrument Serif', serif; font-size: 1.7rem; }
+.s-lbl { font-size: 13px; color: #888; }
+.s-val { font-size: 13px; font-weight: 600; }
+.s-val.neg { color: #e07070; }
+.s-val.pos { color: #7fc88a; }
+
+/* Dot palette */
+.d0 { background: #6db8f2; }
+.d1 { background: #f2b86d; }
+.d2 { background: #8fe0a0; }
+.d3 { background: #d4a4f4; }
+.d4 { background: #f29494; }
+.d5 { background: #f2e06d; }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+@keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.wrap > * { animation: up .3s ease both; }
+.wrap > *:nth-child(2) { animation-delay:.05s }
+.wrap > *:nth-child(3) { animation-delay:.1s }
+.wrap > *:nth-child(4) { animation-delay:.15s }
+.wrap > *:nth-child(5) { animation-delay:.2s }
+.wrap > *:nth-child(6) { animation-delay:.25s }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Rozpočet</h1>
+  <p class="sub">Rozlož celou výplatu — nic nezůstane volně na účtu.</p>
+
+  <div class="salary-row">
+    <span class="salary-label">Čistá mzda</span>
+    <input type="number" id="salary" placeholder="45000" value="45000" oninput="recalc()">
+    <span class="salary-unit">Kč / měsíc</span>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
+    <div class="prog-meta">
+      <span>Alokováno: <b id="pm-alloc">0 Kč</b></span>
+      <span id="pm-rest"></span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-title">Výdaje</span>
+      <span class="sec-sum" id="exp-sum">0 Kč</span>
+    </div>
+    <div class="items" id="exp-list"></div>
+    <button class="add-btn" onclick="addExp()">+ přidat výdaj</button>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-title">Rozdělení zbytku &nbsp;<span id="alloc-pct-lbl" style="color:var(--ink)"></span></span>
+      <span class="sec-sum" id="alloc-sum">0 Kč</span>
+    </div>
+    <div class="alloc-block" id="alloc-list"></div>
+    <button class="add-btn" onclick="addAlloc()">+ přidat kategorii</button>
+  </div>
+
+  <div class="summary" id="summary"></div>
+
+</div>
+<script>
+let eId=0, aId=0;
+const exps=[], allocs=[];
+
+const DEXPS=[
+  {n:'Nájem / hypotéka',a:12000},{n:'Internet + telefon',a:800},
+  {n:'Pojištění',a:600},{n:'Potraviny',a:5000},{n:'Doprava',a:2000},
+];
+const DALLOCS=[
+  {n:'Spoření',p:40},{n:'Investice',p:30},{n:'Rezerva',p:20},{n:'Volné kapesné',p:10},
+];
+
+function fmt(v){ return Math.round(v).toLocaleString('cs-CZ')+' Kč'; }
+
+function getSalary(){ return parseFloat(document.getElementById('salary').value)||0; }
+function totalExp(){ return exps.reduce((s,e)=>s+e.a,0); }
+function calcFree(){ return getSalary()-totalExp(); }
+
+/* ── Expenses ── */
+function addExp(n='',a=0){
+  exps.push({id:++eId,n,a});
+  renderExps(); recalc();
+}
+function delExp(id){
+  exps.splice(exps.findIndex(e=>e.id===id),1);
+  renderExps(); recalc();
+}
+function renderExps(){
+  const c=document.getElementById('exp-list');
+  c.innerHTML='';
+  exps.forEach(e=>{
+    const d=document.createElement('div');
+    d.className='item'; d.id='e'+e.id;
+    d.innerHTML=`
+      <input class="item-name" type="text" placeholder="Název" value="${e.n}"
+        oninput="updateExp(${e.id},'n',this.value)">
+      <div class="item-amount-wrap">
+        <input class="item-num" type="number" placeholder="0" value="${e.a||''}"
+          oninput="updateExp(${e.id},'a',+this.value)">
+        <span class="item-kc">Kč</span>
+      </div>
+      <button class="del" onclick="delExp(${e.id})">×</button>`;
+    c.appendChild(d);
+  });
+}
+function updateExp(id,k,v){ const e=exps.find(x=>x.id===id); if(e){e[k]=v;} recalc(); }
+
+/* ── Allocs ── */
+function addAlloc(n='Nová kategorie',p=0){
+  allocs.push({id:++aId,n,p,dc:'d'+(allocs.length%6)});
+  renderAllocs(); recalc();
+}
+function delAlloc(id){
+  allocs.splice(allocs.findIndex(a=>a.id===id),1);
+  renderAllocs(); recalc();
+}
+function renderAllocs(){
+  const c=document.getElementById('alloc-list');
+  c.innerHTML='';
+  allocs.forEach(a=>{
+    const free=calcFree();
+    const czk=free>0?Math.round(free*a.p/100):0;
+    const d=document.createElement('div');
+    d.className='alloc-row'; d.id='a'+a.id;
+    d.innerHTML=`
+      <div class="a-dot ${a.dc}"></div>
+      <div class="a-name-col">
+        <input class="a-name" type="text" value="${a.n}"
+          oninput="updAlloc(${a.id},'n',this.value)">
+        <span class="a-czk" id="aczk${a.id}">${fmt(czk)}</span>
+      </div>
+      <div class="a-pct-wrap">
+        <input class="a-pct-in" type="number" min="0" max="100" value="${a.p}"
+          oninput="updAlloc(${a.id},'p',+this.value);recalc()">
+        <span class="a-pct-sign">%</span>
+      </div>
+      <input class="a-slider" type="range" min="0" max="100" value="${a.p}"
+        oninput="syncSlider(${a.id},+this.value)">
+      <button class="del" onclick="delAlloc(${a.id})">×</button>`;
+    c.appendChild(d);
+  });
+}
+function updAlloc(id,k,v){
+  const a=allocs.find(x=>x.id===id);
+  if(!a) return;
+  if(k==='p') a.p=Math.max(0,Math.min(100,v));
+  else a[k]=v;
+}
+function syncSlider(id,v){
+  updAlloc(id,'p',v);
+  const inp=document.querySelector('#a'+id+' .a-pct-in');
+  if(inp) inp.value=v;
+  recalc();
+}
+
+/* ── Recalc ── */
+function recalc(){
+  const sal=getSalary();
+  const expTotal=totalExp();
+  const free=sal-expTotal;
+  const allocPct=allocs.reduce((s,a)=>s+a.p,0);
+  const allocCzk=free>0?free*allocPct/100:0;
+  const leftover=sal-expTotal-allocCzk;
+
+  // exp sum
+  document.getElementById('exp-sum').textContent=fmt(expTotal);
+
+  // alloc czk + sliders
+  allocs.forEach(a=>{
+    const czk=free>0?Math.round(free*a.p/100):0;
+    const el=document.getElementById('aczk'+a.id); if(el) el.textContent=fmt(czk);
+    const sl=document.querySelector('#a'+a.id+' .a-slider'); if(sl) sl.value=a.p;
+  });
+  document.getElementById('alloc-pct-lbl').textContent=allocPct+'%';
+  document.getElementById('alloc-sum').textContent=fmt(allocCzk);
+
+  // progress
+  const spoken=expTotal+allocCzk;
+  const pct=sal>0?Math.min(110,spoken/sal*100):0;
+  const fill=document.getElementById('prog');
+  fill.style.width=pct+'%';
+  fill.classList.toggle('over',spoken>sal);
+  document.getElementById('pm-alloc').textContent=fmt(spoken);
+  const restEl=document.getElementById('pm-rest');
+  if(leftover>=0){
+    restEl.innerHTML=`zbývá rozdělit: <b>${fmt(leftover)}</b>`;
+  } else {
+    restEl.innerHTML=`<span class="warn">překročeno o ${fmt(-leftover)}</span>`;
+  }
+
+  // summary
+  const rows=[{l:'Příjem',v:sal,cls:''}];
+  if(expTotal>0) rows.push({l:'Výdaje',v:-expTotal,cls:'neg'});
+  allocs.forEach(a=>{
+    const czk=free>0?Math.round(free*a.p/100):0;
+    if(czk) rows.push({l:a.n,v:-czk,cls:''});
+  });
+  rows.push({l:'Nerozděleno',v:leftover,cls:leftover>=0?'pos':'neg',last:true});
+
+  document.getElementById('summary').innerHTML=rows.map(r=>`
+    <div class="s-row${r.last?' last':''}">
+      <span class="s-lbl">${r.l}</span>
+      <span class="s-val ${r.cls}">${r.v>=0?'+':''}${fmt(Math.abs(r.v))}</span>
+    </div>`).join('');
+}
+
+/* ── Init ── */
+DEXPS.forEach(e=>{ exps.push({id:++eId,n:e.n,a:e.a}); });
+DALLOCS.forEach(a=>{ allocs.push({id:++aId,n:a.n,p:a.p,dc:'d'+(allocs.length%6)}); });
+renderExps(); renderAllocs(); recalc();
+</script>
+</body>
+</html>
