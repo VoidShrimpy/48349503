@@ -6,306 +6,603 @@
 <title>Rozpočet</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f7f6f3;
-  --ink: #1a1a1a;
-  --muted: #8a8a8a;
-  --line: #e2e0db;
-  --white: #ffffff;
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f7f6f3;--ink:#1a1a1a;--muted:#8a8a8a;--line:#e2e0db;
+  --white:#fff;--red:#c0392b;--green:#2d7a4f;
+  --d0:#6db8f2;--d1:#f2b86d;--d2:#8fe0a0;--d3:#d4a4f4;--d4:#f29494;--d5:#f2e06d;
 }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 14px;
-  min-height: 100vh;
-  padding: 48px 20px 80px;
-}
-.wrap { max-width: 560px; margin: 0 auto; }
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:14px;min-height:100vh;padding:40px 18px 80px;}
+.wrap{max-width:580px;margin:0 auto;}
 
-/* Header */
-h1 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 2.2rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  margin-bottom: 4px;
-}
-.sub { color: var(--muted); font-size: 13px; margin-bottom: 36px; }
+h1{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;letter-spacing:-.02em;margin-bottom:2px;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:32px;}
+.sec-title{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
 
-/* Salary */
-.salary-row {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 16px 20px;
-  margin-bottom: 28px;
+/* ── Month nav: centered, year first ── */
+.month-nav{
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;margin-bottom:28px;background:var(--white);
+  border:1px solid var(--line);border-radius:10px;padding:10px 16px;
+  position:relative;
 }
-.salary-label { color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
-#salary {
-  flex: 1; border: none; background: transparent;
-  font-family: 'Instrument Serif', serif;
-  font-size: 1.9rem; color: var(--ink);
-  outline: none; text-align: right; min-width: 0;
+.month-nav select{
+  border:none;background:transparent;
+  font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;
+  color:var(--ink);outline:none;cursor:pointer;
 }
-#salary::placeholder { color: var(--line); }
-.salary-unit { color: var(--muted); font-size: 14px; }
+.month-nav .sep{color:var(--line);font-size:13px;}
+.carry-badge{
+  position:absolute;right:12px;
+  font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;
+  white-space:nowrap;
+}
+.badge-pos{background:#e8f5ee;color:var(--green);}
+.badge-neg{background:#fdf0ef;color:var(--red);}
+.badge-neutral{background:var(--bg);color:var(--muted);}
 
-/* Progress */
-.prog-wrap { margin-bottom: 32px; }
-.prog-bar { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
-.prog-fill { height: 100%; background: var(--ink); border-radius: 4px; width: 0%; transition: width .25s ease; }
-.prog-fill.over { background: #c0392b; }
-.prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
-.prog-meta b { color: var(--ink); }
-.prog-meta .warn { color: #c0392b; font-weight: 600; }
+/* ── Salary + Carry ── */
+.salary-row{display:flex;align-items:baseline;gap:10px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:8px;}
+.salary-label{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;}
+#salary{flex:1;border:none;background:transparent;font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--ink);outline:none;text-align:right;min-width:0;}
+#salary::placeholder{color:var(--line);}
+.salary-unit{color:var(--muted);font-size:13px;}
 
-/* Section */
-.sec { margin-bottom: 28px; }
-.sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.sec-title { font-size: 11px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
-.sec-sum { font-size: 13px; font-weight: 600; }
+.carry-row{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:11px 18px;margin-bottom:22px;}
+.carry-label{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;flex:1;}
+.carry-input{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;text-align:right;width:100px;}
+.carry-unit{color:var(--muted);font-size:12px;}
 
-/* Item rows */
-.items { display: flex; flex-direction: column; gap: 2px; }
-.item {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  display: grid;
-  grid-template-columns: 1fr 100px 28px;
-  align-items: center;
-  padding: 0 6px 0 14px;
-  gap: 4px;
-  transition: border-color .15s;
-}
-.item:focus-within { border-color: #bbb; }
-.item-name {
-  border: none; background: transparent;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 14px; color: var(--ink);
-  outline: none; padding: 11px 0; min-width: 0;
-}
-.item-name::placeholder { color: var(--line); }
-.item-amount-wrap { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
-.item-num {
-  border: none; background: transparent;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 13px; font-weight: 500; color: var(--ink);
-  outline: none; text-align: right; width: 70px; padding: 11px 0;
-}
-.item-num::placeholder { color: var(--line); }
-.item-kc { font-size: 11px; color: var(--muted); }
-.del { background: none; border: none; color: var(--line); cursor: pointer; font-size: 16px; padding: 6px 4px; border-radius: 4px; transition: color .15s; line-height: 1; }
-.del:hover { color: #c0392b; }
-.add-btn {
-  margin-top: 4px; background: none;
-  border: 1px dashed var(--line); border-radius: 8px;
-  color: var(--muted); cursor: pointer;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 12px; padding: 8px 14px; width: 100%; text-align: left;
-  transition: border-color .15s, color .15s;
-}
-.add-btn:hover { border-color: #aaa; color: var(--ink); }
+/* ── Progress ── */
+.prog-wrap{margin-bottom:28px;}
+.prog-bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:7px;}
+.prog-fill{height:100%;background:var(--ink);border-radius:4px;width:0%;transition:width .25s;}
+.prog-fill.over{background:var(--red);}
+.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);}
+.prog-meta b{color:var(--ink);}
+.warn{color:var(--red);font-weight:600;}
 
-/* Alloc block */
-.alloc-block {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 10px; overflow: hidden;
-}
-.alloc-row {
-  display: grid;
-  grid-template-columns: 10px 1fr 80px 80px 24px;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 14px;
-  border-bottom: 1px solid var(--line);
-}
-.alloc-row:last-child { border-bottom: none; }
-.alloc-row:focus-within { background: #fafaf8; }
-.a-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.a-name-col { display: flex; flex-direction: column; min-width: 0; }
-.a-name {
-  border: none; background: transparent;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 14px; font-weight: 500; color: var(--ink);
-  outline: none; width: 100%;
-}
-.a-czk { font-size: 11px; color: var(--muted); margin-top: 1px; }
-.a-pct-wrap { display: flex; align-items: center; gap: 2px; justify-content: flex-end; }
-.a-pct-in {
-  border: none; background: transparent;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 15px; font-weight: 600; color: var(--ink);
-  outline: none; text-align: right; width: 36px;
-}
-.a-pct-sign { font-size: 12px; color: var(--muted); }
-.a-slider {
-  -webkit-appearance: none; width: 100%; height: 3px;
-  border-radius: 3px; background: var(--line); outline: none; cursor: pointer;
-}
-.a-slider::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 13px; height: 13px;
-  border-radius: 50%; background: var(--ink); cursor: pointer;
-  transition: transform .15s;
-}
-.a-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+/* ── Section ── */
+.sec{margin-bottom:24px;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sec-sum{font-size:13px;font-weight:600;}
+.sort-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.05em;padding:2px 6px;border-radius:4px;transition:color .15s;}
+.sort-btn.on,.sort-btn:hover{color:var(--ink);}
 
-/* Summary */
-.summary {
-  background: var(--ink); color: var(--white);
-  border-radius: 10px; padding: 20px 22px;
+/* ── Expense items ── */
+.items{display:flex;flex-direction:column;gap:2px;}
+/* grid: name | amount+kc | type-badge | del */
+.item{
+  background:var(--white);border:1px solid var(--line);border-radius:8px;
+  display:grid;grid-template-columns:1fr auto auto 28px;
+  align-items:center;padding:0 6px 0 12px;gap:6px;
+  transition:border-color .15s;
 }
-.s-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid #2e2e2e; }
-.s-row:last-child { border-bottom: none; padding-top: 14px; margin-top: 4px; }
-.s-row:last-child .s-lbl { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #888; font-weight: 600; }
-.s-row:last-child .s-val { font-family: 'Instrument Serif', serif; font-size: 1.7rem; }
-.s-lbl { font-size: 13px; color: #888; }
-.s-val { font-size: 13px; font-weight: 600; }
-.s-val.neg { color: #e07070; }
-.s-val.pos { color: #7fc88a; }
+.item:focus-within{border-color:#bbb;}
+.item-name{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;padding:10px 0;min-width:0;width:100%;}
+.item-name::placeholder{color:var(--line);}
+.item-amt-wrap{display:flex;align-items:center;gap:3px;}
+.item-num{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;text-align:right;width:72px;padding:10px 0;}
+.item-num::placeholder{color:var(--line);}
+.item-kc{font-size:11px;color:var(--muted);white-space:nowrap;}
+.type-tog{font-size:10px;font-weight:600;letter-spacing:.03em;padding:2px 8px;border-radius:20px;cursor:pointer;border:none;white-space:nowrap;transition:opacity .15s;}
+.type-tog:hover{opacity:.7;}
+.tog-fixed{background:#e8f0fe;color:#3a6bc4;}
+.tog-float{background:#fef8e8;color:#b07c1a;}
+.del{background:none;border:none;color:var(--line);cursor:pointer;font-size:16px;padding:6px 4px;border-radius:4px;transition:color .15s;line-height:1;}
+.del:hover{color:var(--red);}
+.add-btn{margin-top:4px;background:none;border:1px dashed var(--line);border-radius:8px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:12px;padding:8px 14px;width:100%;text-align:left;transition:border-color .15s,color .15s;}
+.add-btn:hover{border-color:#aaa;color:var(--ink);}
 
-/* Dot palette */
-.d0 { background: #6db8f2; }
-.d1 { background: #f2b86d; }
-.d2 { background: #8fe0a0; }
-.d3 { background: #d4a4f4; }
-.d4 { background: #f29494; }
-.d5 { background: #f2e06d; }
+.tag-fixed{background:#e8f0fe;color:#3a6bc4;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;margin-left:4px;}
+.tag-float{background:#fef8e8;color:#b07c1a;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;margin-left:4px;}
+
+/* ── Alloc block ── */
+.alloc-outer{background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:4px;}
+/* grid: dot | name+czk | −NUM%+ | slider | del */
+.alloc-row{
+  display:grid;
+  grid-template-columns:10px 1fr 120px 80px 24px;
+  align-items:center;gap:10px;
+  padding:12px 14px;border-bottom:1px solid var(--line);
+}
+.alloc-row:last-child{border-bottom:none;}
+.alloc-row:focus-within{background:#fafaf8;}
+.a-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.a-name-col{display:flex;flex-direction:column;min-width:0;}
+.a-name{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);outline:none;width:100%;}
+.a-czk{font-size:11px;color:var(--muted);margin-top:1px;}
+
+/* pct control: −  [  28 ] % + */
+.a-pct-ctrl{
+  display:flex;align-items:center;justify-content:flex-end;gap:3px;
+}
+.pct-step{
+  background:none;border:1px solid var(--line);border-radius:4px;
+  color:var(--muted);cursor:pointer;
+  font-size:13px;font-weight:600;
+  width:22px;height:24px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;padding:0;
+  transition:border-color .15s,color .15s;
+  line-height:1;
+}
+.pct-step:hover{border-color:#999;color:var(--ink);}
+.a-pct-in{
+  border:1px solid var(--line);border-radius:4px;background:var(--bg);
+  font-family:'Instrument Sans',sans-serif;
+  font-size:13px;font-weight:600;color:var(--ink);
+  outline:none;text-align:center;width:36px;height:24px;
+  padding:0;
+}
+.a-pct-in:focus{border-color:#999;}
+.a-pct-sign{font-size:12px;color:var(--muted);width:10px;text-align:left;}
+
+.a-slider{-webkit-appearance:none;width:100%;height:3px;border-radius:3px;background:var(--line);outline:none;cursor:pointer;}
+.a-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--ink);cursor:pointer;transition:transform .15s;}
+.a-slider::-webkit-slider-thumb:hover{transform:scale(1.25);}
+
+/* ── Presets ── */
+.preset-wrap{margin-bottom:8px;}
+.preset-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+.preset-btn{
+  background:var(--white);border:1px solid var(--line);border-radius:6px;
+  color:var(--muted);cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;
+  padding:5px 10px;transition:border-color .15s,color .15s,background .15s;
+  display:flex;align-items:center;gap:5px;
+}
+.preset-btn:hover{border-color:#aaa;color:var(--ink);}
+.preset-btn.active{border-color:var(--ink);background:var(--ink);color:var(--white);}
+.preset-edit-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:11px;padding:2px 4px;
+  border-radius:3px;transition:color .15s;
+  line-height:1;
+}
+.preset-edit-btn:hover{color:var(--ink);}
+
+/* Preset editor panel */
+.preset-editor{
+  background:var(--white);border:1px solid var(--line);border-radius:8px;
+  padding:12px 14px;margin-bottom:8px;display:none;
+}
+.preset-editor.open{display:block;}
+.pe-title{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.pe-row{display:grid;grid-template-columns:1fr 50px 24px;gap:6px;align-items:center;margin-bottom:6px;}
+.pe-row:last-of-type{margin-bottom:0;}
+.pe-name,.pe-val{
+  border:1px solid var(--line);border-radius:5px;background:var(--bg);
+  font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--ink);
+  padding:5px 8px;outline:none;width:100%;
+}
+.pe-name:focus,.pe-val:focus{border-color:#aaa;}
+.pe-val{text-align:right;width:50px;}
+.pe-del{background:none;border:none;color:var(--line);cursor:pointer;font-size:14px;padding:4px;border-radius:3px;transition:color .15s;}
+.pe-del:hover{color:var(--red);}
+.pe-add{margin-top:8px;background:none;border:1px dashed var(--line);border-radius:6px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;padding:6px 10px;width:100%;text-align:left;transition:border-color .15s,color .15s;}
+.pe-add:hover{border-color:#aaa;color:var(--ink);}
+.pe-save{margin-top:8px;background:var(--ink);border:none;border-radius:6px;color:var(--white);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:7px 14px;transition:opacity .15s;}
+.pe-save:hover{opacity:.8;}
+
+/* ── Summary ── */
+.summary{background:var(--ink);color:var(--white);border-radius:10px;padding:18px 20px;margin-bottom:28px;}
+.s-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid #2a2a2a;}
+.s-row:last-child{border-bottom:none;padding-top:12px;margin-top:4px;}
+.s-row:last-child .s-lbl{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#888;font-weight:600;}
+.s-row:last-child .s-val{font-family:'Instrument Serif',serif;font-size:1.6rem;}
+.s-lbl{font-size:13px;color:#888;}
+.s-val{font-size:13px;font-weight:600;}
+.s-val.neg{color:#e07070;}
+.s-val.pos{color:#7fc88a;}
+
+/* ── Year overview ── */
+.year-sec{margin-bottom:28px;}
+.year-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;}
+@media(max-width:420px){.year-grid{grid-template-columns:repeat(4,1fr);}}
+.mo-cell{background:var(--white);border:1px solid var(--line);border-radius:7px;padding:8px 4px;text-align:center;cursor:pointer;transition:border-color .15s;}
+.mo-cell:hover{border-color:#bbb;}
+.mo-cell.current{border-color:var(--ink);}
+.mo-name{font-size:11px;font-weight:600;letter-spacing:.04em;}
+.mo-bar{height:3px;border-radius:3px;margin:5px 2px 3px;background:var(--line);overflow:hidden;}
+.mo-bar-fill{height:100%;border-radius:3px;background:var(--ink);}
+.mo-val{font-size:10px;color:var(--muted);}
+.mo-val.pos{color:var(--green);}
+.mo-val.neg{color:var(--red);}
+.year-select{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);outline:none;cursor:pointer;margin-left:6px;}
+
+/* ── Actions ── */
+.actions{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;}
+.action-btn{background:var(--white);border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:600;padding:9px 16px;transition:border-color .15s,background .15s;}
+.action-btn:hover{border-color:#aaa;background:#f2f1ee;}
+
+.divider{height:1px;background:var(--line);margin:6px 0 22px;}
 
 input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 
-@keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-.wrap > * { animation: up .3s ease both; }
-.wrap > *:nth-child(2) { animation-delay:.05s }
-.wrap > *:nth-child(3) { animation-delay:.1s }
-.wrap > *:nth-child(4) { animation-delay:.15s }
-.wrap > *:nth-child(5) { animation-delay:.2s }
-.wrap > *:nth-child(6) { animation-delay:.25s }
+@keyframes up{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.wrap>*{animation:up .3s ease both;}
+.wrap>*:nth-child(1){animation-delay:0s}.wrap>*:nth-child(2){animation-delay:.04s}
+.wrap>*:nth-child(3){animation-delay:.08s}.wrap>*:nth-child(4){animation-delay:.12s}
+.wrap>*:nth-child(5){animation-delay:.16s}.wrap>*:nth-child(6){animation-delay:.2s}
+.wrap>*:nth-child(7){animation-delay:.24s}.wrap>*:nth-child(8){animation-delay:.28s}
+.wrap>*:nth-child(9){animation-delay:.32s}.wrap>*:nth-child(10){animation-delay:.36s}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <h1>Rozpočet</h1>
-  <p class="sub">Rozlož celou výplatu — nic nezůstane volně na účtu.</p>
+<h1>Rozpočet</h1>
+<p class="sub">Rozlož celou výplatu — nic nezůstane volně na účtu.</p>
 
-  <div class="salary-row">
-    <span class="salary-label">Čistá mzda</span>
-    <input type="number" id="salary" placeholder="45000" value="45000" oninput="recalc()">
-    <span class="salary-unit">Kč / měsíc</span>
+<!-- Month nav: month / year centered, badge right (hidden when empty) -->
+<div class="month-nav">
+  <select id="sel-month"></select>
+  <span class="sep">/</span>
+  <select id="sel-year"></select>
+  <span id="carry-badge" class="carry-badge" style="display:none"></span>
+</div>
+
+<!-- Salary -->
+<div class="salary-row">
+  <span class="salary-label">Čistá mzda</span>
+  <input type="number" id="salary" placeholder="45000" oninput="onSalaryInput()">
+  <span class="salary-unit">Kč / měsíc</span>
+</div>
+
+<!-- Carry -->
+<div class="carry-row">
+  <span class="carry-label">Přebytek / schodek z min. měsíce</span>
+  <input class="carry-input" type="number" id="carry" placeholder="0" oninput="saveAndRecalc()">
+  <span class="carry-unit">Kč</span>
+</div>
+
+<!-- Progress -->
+<div class="prog-wrap">
+  <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
+  <div class="prog-meta">
+    <span>Alokováno: <b id="pm-alloc">0 Kč</b></span>
+    <span id="pm-rest"></span>
   </div>
+</div>
 
-  <div class="prog-wrap">
-    <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
-    <div class="prog-meta">
-      <span>Alokováno: <b id="pm-alloc">0 Kč</b></span>
-      <span id="pm-rest"></span>
+<!-- Fixed expenses -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-title">Fixní výdaje <span class="tag-fixed">pravidelné</span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="sort-btn on" id="sort-fixed-btn" onclick="toggleSort('fixed')">↓ výše</button>
+      <span class="sec-sum" id="exp-fixed-sum">0 Kč</span>
     </div>
   </div>
+  <div class="items" id="fixed-list"></div>
+  <button class="add-btn" onclick="addExp('fixed')">+ přidat fixní výdaj</button>
+</div>
 
-  <div class="sec">
-    <div class="sec-head">
-      <span class="sec-title">Výdaje</span>
-      <span class="sec-sum" id="exp-sum">0 Kč</span>
+<!-- Float expenses -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-title">Plovoucí výdaje <span class="tag-float">nepravidelné</span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="sort-btn on" id="sort-float-btn" onclick="toggleSort('float')">↓ výše</button>
+      <span class="sec-sum" id="exp-float-sum">0 Kč</span>
     </div>
-    <div class="items" id="exp-list"></div>
-    <button class="add-btn" onclick="addExp()">+ přidat výdaj</button>
   </div>
+  <div class="items" id="float-list"></div>
+  <button class="add-btn" onclick="addExp('float')">+ přidat plovoucí výdaj</button>
+</div>
 
-  <div class="sec">
-    <div class="sec-head">
-      <span class="sec-title">Rozdělení zbytku &nbsp;<span id="alloc-pct-lbl" style="color:var(--ink)"></span></span>
-      <span class="sec-sum" id="alloc-sum">0 Kč</span>
+<!-- Alloc -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-title">Rozdělení zbytku <span id="alloc-pct-lbl" style="color:var(--ink);font-weight:600;margin-left:2px;font-size:12px;"></span></span>
+    <span class="sec-sum" id="alloc-sum">0 Kč</span>
+  </div>
+  <!-- Presets -->
+  <div class="preset-wrap">
+    <div class="preset-row" id="preset-row"></div>
+    <div class="preset-editor" id="preset-editor">
+      <div class="pe-title">
+        <span id="pe-title-lbl">Upravit preset</span>
+        <button class="preset-edit-btn" onclick="closeEditor()" style="font-size:13px;">✕</button>
+      </div>
+      <div id="pe-rows"></div>
+      <button class="pe-add" onclick="peAddRow()">+ řádek</button>
+      <br>
+      <button class="pe-save" onclick="savePreset()">Uložit preset</button>
     </div>
-    <div class="alloc-block" id="alloc-list"></div>
-    <button class="add-btn" onclick="addAlloc()">+ přidat kategorii</button>
   </div>
+  <div class="alloc-outer" id="alloc-list"></div>
+  <button class="add-btn" style="margin-top:4px" onclick="addAlloc()">+ přidat kategorii</button>
+</div>
 
-  <div class="summary" id="summary"></div>
+<!-- Summary -->
+<div class="summary" id="summary"></div>
+<div class="divider"></div>
+
+<!-- Year overview -->
+<div class="year-sec">
+  <div class="sec-head" style="margin-bottom:10px;">
+    <span class="sec-title">Přehled roku
+      <select class="year-select" id="year-overview-sel" onchange="renderYearOverview()"></select>
+    </span>
+  </div>
+  <div class="year-grid" id="year-grid"></div>
+</div>
+<div class="divider"></div>
+
+<!-- Actions -->
+<div class="actions">
+  <button class="action-btn" onclick="exportData()">⬇ Export JSON</button>
+  <button class="action-btn" onclick="document.getElementById('import-file').click()">⬆ Import JSON</button>
+  <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+  <button class="action-btn" onclick="exportCSV()">⬇ Export CSV</button>
+</div>
 
 </div>
 <script>
-let eId=0, aId=0;
-const exps=[], allocs=[];
+// ═══════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════
+const MO = ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
+const DC = ['d0','d1','d2','d3','d4','d5'];
 
-const DEXPS=[
-  {n:'Nájem / hypotéka',a:12000},{n:'Internet + telefon',a:800},
-  {n:'Pojištění',a:600},{n:'Potraviny',a:5000},{n:'Doprava',a:2000},
+// Default presets — now include expense categories too
+// type: 'expense-fixed' | 'expense-float' | 'alloc'
+const DEFAULT_PRESETS = [
+  {
+    label:'50/30/20',
+    items:[
+      {type:'expense-fixed', n:'Bydlení',       p:30},
+      {type:'expense-fixed', n:'Jídlo',          p:15},
+      {type:'expense-fixed', n:'Doprava',         p:5},
+      {type:'alloc',         n:'Radost & volný čas', p:30},
+      {type:'alloc',         n:'Investice / rezerva',p:20},
+    ]
+  },
+  {
+    label:'40/30/20/10',
+    items:[
+      {type:'expense-fixed', n:'Nutné výdaje',   p:40},
+      {type:'alloc',         n:'Radost & volný čas', p:30},
+      {type:'alloc',         n:'Investice',       p:20},
+      {type:'alloc',         n:'Rezerva',         p:10},
+    ]
+  },
+  {
+    label:'30/20/10',
+    items:[
+      {type:'alloc',         n:'Spoření',         p:30},
+      {type:'alloc',         n:'Investice',       p:20},
+      {type:'alloc',         n:'Rezerva',         p:10},
+    ]
+  },
 ];
-const DALLOCS=[
-  {n:'Spoření',p:40},{n:'Investice',p:30},{n:'Rezerva',p:20},{n:'Volné kapesné',p:10},
-];
 
-function fmt(v){ return Math.round(v).toLocaleString('cs-CZ')+' Kč'; }
+let presets = JSON.parse(localStorage.getItem('rb_presets')||'null') || DEFAULT_PRESETS;
+let editingPresetIdx = null;
 
-function getSalary(){ return parseFloat(document.getElementById('salary').value)||0; }
-function totalExp(){ return exps.reduce((s,e)=>s+e.a,0); }
-function calcFree(){ return getSalary()-totalExp(); }
+let curYear, curMonth;
+let sortFixed = true, sortFloat = true;
+let eId = 100, aId = 100;
+let data = null;
 
-/* ── Expenses ── */
-function addExp(n='',a=0){
-  exps.push({id:++eId,n,a});
-  renderExps(); recalc();
+// ═══════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════
+const sk = (y,m) => `rb_${y}_${String(m).padStart(2,'0')}`;
+
+function loadMonth(y,m){
+  const raw = localStorage.getItem(sk(y,m));
+  if(raw){ try{ return JSON.parse(raw); }catch(e){} }
+  return {salary:'',carry:0,expenses:[],allocs:defaultAllocs()};
 }
-function delExp(id){
-  exps.splice(exps.findIndex(e=>e.id===id),1);
-  renderExps(); recalc();
+function saveMonth(y,m,d){ localStorage.setItem(sk(y,m),JSON.stringify(d)); }
+
+function defaultAllocs(){
+  return [
+    {id:++aId,n:'Spoření / rezerva',p:30,dc:'d0'},
+    {id:++aId,n:'Investice',p:20,dc:'d1'},
+    {id:++aId,n:'Kapesné',p:10,dc:'d2'},
+  ];
 }
-function renderExps(){
-  const c=document.getElementById('exp-list');
-  c.innerHTML='';
-  exps.forEach(e=>{
-    const d=document.createElement('div');
-    d.className='item'; d.id='e'+e.id;
-    d.innerHTML=`
-      <input class="item-name" type="text" placeholder="Název" value="${e.n}"
-        oninput="updateExp(${e.id},'n',this.value)">
-      <div class="item-amount-wrap">
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function init(){
+  const now = new Date();
+  curYear=now.getFullYear(); curMonth=now.getMonth();
+
+  // Month first (HTML order: Měsíc / Rok)
+  const ms=document.getElementById('sel-month');
+  MO.forEach((n,i)=>{const o=document.createElement('option');o.value=i;o.textContent=n;ms.appendChild(o);});
+  ms.value=curMonth;
+  ms.addEventListener('change',()=>{curMonth=+ms.value;switchMonth();});
+
+  const ys=document.getElementById('sel-year');
+  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){
+    const o=document.createElement('option');o.value=y;o.textContent=y;ys.appendChild(o);
+  }
+  ys.value=curYear;
+  ys.addEventListener('change',()=>{curYear=+ys.value;switchMonth();});
+
+  const yo=document.getElementById('year-overview-sel');
+  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){
+    const o=document.createElement('option');o.value=y;o.textContent=y;yo.appendChild(o);
+  }
+  yo.value=curYear;
+
+  renderPresets();
+  switchMonth();
+}
+
+function switchMonth(){
+  document.getElementById('sel-year').value=curYear;
+  document.getElementById('sel-month').value=curMonth;
+  data=loadMonth(curYear,curMonth);
+  data.expenses.forEach(e=>{if(e.id>=eId)eId=e.id+1;});
+  data.allocs.forEach(a=>{if(a.id>=aId)aId=a.id+1;});
+  updateCarryBadge();
+  renderAll();
+  renderYearOverview();
+}
+
+function updateCarryBadge(){
+  let py=curYear,pm=curMonth-1;
+  if(pm<0){pm=11;py--;}
+  const prev=loadMonth(py,pm);
+  const res=computeSummary(prev);
+  const badge=document.getElementById('carry-badge');
+
+  // Case 1: prev month has data and current carry is not yet set → offer to carry over
+  if((data.carry===0||data.carry===''||data.carry===null) && res.leftover!==0 && (prev.salary||prev.expenses.length)){
+    const v=Math.round(res.leftover);
+    badge.textContent=(v>0?'+':'')+fmtN(v)+' Kč';
+    badge.className='carry-badge '+(v>=0?'badge-pos':'badge-neg');
+    badge.title='Klikni pro přenesení zůstatku z '+MO[pm];
+    badge.style.display='';
+    badge.style.cursor='pointer';
+    badge.onclick=()=>{
+      data.carry=v;
+      document.getElementById('carry').value=v;
+      badge.onclick=null;badge.style.cursor='default';badge.title='';
+      badge.textContent=(v>0?'+':'')+fmtN(v)+' Kč';
+      saveAndRecalc();
+    };
+  } else {
+    const v=+(data.carry)||0;
+    if(v!==0){
+      badge.textContent=(v>0?'+':'')+fmtN(v)+' Kč';
+      badge.className='carry-badge '+(v>0?'badge-pos':'badge-neg');
+      badge.style.display='';
+    } else {
+      // Nothing to show — hide badge entirely
+      badge.style.display='none';
+    }
+    badge.onclick=null;badge.style.cursor='default';badge.title='';
+  }
+}
+
+// ═══════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════
+function renderAll(){
+  document.getElementById('salary').value=data.salary||'';
+  document.getElementById('carry').value=data.carry||'';
+  renderExpenses('fixed');
+  renderExpenses('float');
+  renderAllocs();
+  recalc();
+}
+
+// ═══════════════════════════════════════════════
+// EXPENSES — key fix: no re-render on each keystroke for amount
+// ═══════════════════════════════════════════════
+function renderExpenses(type){
+  const listId=type==='fixed'?'fixed-list':'float-list';
+  const list=document.getElementById(listId);
+
+  // remember focused id before re-render
+  let items=data.expenses.filter(e=>e.type===type);
+  if(type==='fixed'?sortFixed:sortFloat) items=[...items].sort((a,b)=>b.a-a.a);
+
+  list.innerHTML='';
+  items.forEach(e=>{
+    const row=document.createElement('div');
+    row.className='item'; row.id='ei'+e.id;
+    row.innerHTML=`
+      <input class="item-name" type="text" placeholder="Název" value="${esc(e.n)}"
+        oninput="updExpName(${e.id},this.value)">
+      <div class="item-amt-wrap">
         <input class="item-num" type="number" placeholder="0" value="${e.a||''}"
-          oninput="updateExp(${e.id},'a',+this.value)">
+          oninput="updExpAmt(${e.id},this.value)"
+          onblur="sortIfNeeded('${type}')">
         <span class="item-kc">Kč</span>
       </div>
+      <button class="type-tog ${type==='fixed'?'tog-fixed':'tog-float'}"
+        onclick="moveExpType(${e.id})"
+        title="Přesunout do ${type==='fixed'?'plovoucích':'fixních'}">
+        ${type==='fixed'?'fixní':'plovoucí'}
+      </button>
       <button class="del" onclick="delExp(${e.id})">×</button>`;
-    c.appendChild(d);
+    list.appendChild(row);
   });
 }
-function updateExp(id,k,v){ const e=exps.find(x=>x.id===id); if(e){e[k]=v;} recalc(); }
 
-/* ── Allocs ── */
-function addAlloc(n='Nová kategorie',p=0){
-  allocs.push({id:++aId,n,p,dc:'d'+(allocs.length%6)});
-  renderAllocs(); recalc();
+// Name: update state + recalc but NO re-render (keeps focus)
+function updExpName(id,v){
+  const e=data.expenses.find(x=>x.id===id);
+  if(e) e.n=v;
+  saveAndRecalc();
 }
-function delAlloc(id){
-  allocs.splice(allocs.findIndex(a=>a.id===id),1);
-  renderAllocs(); recalc();
+// Amount: update state + recalc, NO re-render (re-sort happens on blur)
+function updExpAmt(id,v){
+  const e=data.expenses.find(x=>x.id===id);
+  if(e) e.a=parseFloat(v)||0;
+  saveAndRecalc();
 }
+function sortIfNeeded(type){
+  renderExpenses(type);
+}
+
+function addExp(type){
+  const obj={id:++eId,n:'',a:0,type};
+  data.expenses.push(obj);
+  saveAndRecalc();
+  renderExpenses(type);
+  // focus the new name input
+  const el=document.querySelector('#ei'+obj.id+' .item-name');
+  if(el) el.focus();
+}
+function delExp(id){
+  const e=data.expenses.find(x=>x.id===id);
+  data.expenses=data.expenses.filter(x=>x.id!==id);
+  saveAndRecalc();
+  renderExpenses('fixed');
+  renderExpenses('float');
+}
+function moveExpType(id){
+  const e=data.expenses.find(x=>x.id===id);
+  if(!e) return;
+  e.type=e.type==='fixed'?'float':'fixed';
+  saveAndRecalc();
+  renderExpenses('fixed');
+  renderExpenses('float');
+}
+function toggleSort(type){
+  if(type==='fixed') sortFixed=!sortFixed;
+  else sortFloat=!sortFloat;
+  const btn=document.getElementById('sort-'+type+'-btn');
+  btn.classList.toggle('on',type==='fixed'?sortFixed:sortFloat);
+  renderExpenses(type);
+}
+
+// ═══════════════════════════════════════════════
+// ALLOCS
+// ═══════════════════════════════════════════════
 function renderAllocs(){
   const c=document.getElementById('alloc-list');
   c.innerHTML='';
-  allocs.forEach(a=>{
-    const free=calcFree();
+  const free=calcFree();
+  data.allocs.forEach(a=>{
     const czk=free>0?Math.round(free*a.p/100):0;
     const d=document.createElement('div');
-    d.className='alloc-row'; d.id='a'+a.id;
+    d.className='alloc-row'; d.id='ai'+a.id;
     d.innerHTML=`
       <div class="a-dot ${a.dc}"></div>
       <div class="a-name-col">
-        <input class="a-name" type="text" value="${a.n}"
-          oninput="updAlloc(${a.id},'n',this.value)">
+        <input class="a-name" type="text" value="${esc(a.n)}"
+          oninput="updAllocName(${a.id},this.value)">
         <span class="a-czk" id="aczk${a.id}">${fmt(czk)}</span>
       </div>
-      <div class="a-pct-wrap">
+      <div class="a-pct-ctrl">
+        <button class="pct-step" onclick="stepAlloc(${a.id},-1)">−</button>
         <input class="a-pct-in" type="number" min="0" max="100" value="${a.p}"
-          oninput="updAlloc(${a.id},'p',+this.value);recalc()">
+          oninput="updAllocPct(${a.id},+this.value)">
         <span class="a-pct-sign">%</span>
+        <button class="pct-step" onclick="stepAlloc(${a.id},+1)">+</button>
       </div>
       <input class="a-slider" type="range" min="0" max="100" value="${a.p}"
         oninput="syncSlider(${a.id},+this.value)">
@@ -313,74 +610,366 @@ function renderAllocs(){
     c.appendChild(d);
   });
 }
-function updAlloc(id,k,v){
-  const a=allocs.find(x=>x.id===id);
-  if(!a) return;
-  if(k==='p') a.p=Math.max(0,Math.min(100,v));
-  else a[k]=v;
+
+function updAllocName(id,v){
+  const a=data.allocs.find(x=>x.id===id);if(a)a.n=v;
+  saveAndRecalc();
+}
+function updAllocPct(id,v){
+  const a=data.allocs.find(x=>x.id===id);
+  if(a) a.p=Math.max(0,Math.min(100,v));
+  saveAndRecalc();
+  refreshAllocCzk();
+}
+function stepAlloc(id,dir){
+  const a=data.allocs.find(x=>x.id===id);if(!a)return;
+  a.p=Math.max(0,Math.min(100,a.p+dir));
+  const inp=document.querySelector('#ai'+id+' .a-pct-in');
+  if(inp) inp.value=a.p;
+  const sl=document.querySelector('#ai'+id+' .a-slider');
+  if(sl) sl.value=a.p;
+  saveAndRecalc();
+  refreshAllocCzk();
 }
 function syncSlider(id,v){
-  updAlloc(id,'p',v);
-  const inp=document.querySelector('#a'+id+' .a-pct-in');
-  if(inp) inp.value=v;
-  recalc();
+  const a=data.allocs.find(x=>x.id===id);if(!a)return;
+  a.p=Math.max(0,Math.min(100,v));
+  const inp=document.querySelector('#ai'+id+' .a-pct-in');
+  if(inp) inp.value=a.p;
+  saveAndRecalc();
+  refreshAllocCzk();
+}
+function refreshAllocCzk(){
+  const free=calcFree();
+  data.allocs.forEach(a=>{
+    const czk=free>0?Math.round(free*a.p/100):0;
+    const el=document.getElementById('aczk'+a.id);if(el)el.textContent=fmt(czk);
+  });
+}
+function addAlloc(n='Nová kategorie',p=0){
+  const dc=DC[data.allocs.length%6];
+  data.allocs.push({id:++aId,n,p,dc});
+  saveAndRecalc();
+  renderAllocs();
+}
+function delAlloc(id){
+  data.allocs=data.allocs.filter(a=>a.id!==id);
+  saveAndRecalc();
+  renderAllocs();
 }
 
-/* ── Recalc ── */
-function recalc(){
-  const sal=getSalary();
-  const expTotal=totalExp();
-  const free=sal-expTotal;
-  const allocPct=allocs.reduce((s,a)=>s+a.p,0);
-  const allocCzk=free>0?free*allocPct/100:0;
-  const leftover=sal-expTotal-allocCzk;
-
-  // exp sum
-  document.getElementById('exp-sum').textContent=fmt(expTotal);
-
-  // alloc czk + sliders
-  allocs.forEach(a=>{
-    const czk=free>0?Math.round(free*a.p/100):0;
-    const el=document.getElementById('aczk'+a.id); if(el) el.textContent=fmt(czk);
-    const sl=document.querySelector('#a'+a.id+' .a-slider'); if(sl) sl.value=a.p;
+// ═══════════════════════════════════════════════
+// PRESETS
+// ═══════════════════════════════════════════════
+function renderPresets(){
+  const row=document.getElementById('preset-row');
+  row.innerHTML='';
+  presets.forEach((pr,i)=>{
+    const wrap=document.createElement('span');
+    wrap.style.display='inline-flex';wrap.style.alignItems='center';wrap.style.gap='0';
+    const btn=document.createElement('button');
+    btn.className='preset-btn';btn.id='prb'+i;
+    btn.textContent=pr.label;
+    btn.onclick=()=>applyPreset(i);
+    const edit=document.createElement('button');
+    edit.className='preset-edit-btn';edit.textContent='✎';edit.title='Upravit preset';
+    edit.onclick=(e)=>{e.stopPropagation();openEditor(i);};
+    wrap.appendChild(btn);wrap.appendChild(edit);
+    row.appendChild(wrap);
   });
-  document.getElementById('alloc-pct-lbl').textContent=allocPct+'%';
-  document.getElementById('alloc-sum').textContent=fmt(allocCzk);
+  // Add new preset button
+  const newBtn=document.createElement('button');
+  newBtn.className='preset-btn';newBtn.textContent='+ nový';newBtn.style.color='var(--muted)';
+  newBtn.onclick=()=>{
+    presets.push({label:'Vlastní',items:[{type:'alloc',n:'Kategorie',p:10}]});
+    savePresets();
+    renderPresets();
+    openEditor(presets.length-1);
+  };
+  row.appendChild(newBtn);
+}
 
-  // progress
-  const spoken=expTotal+allocCzk;
+function applyPreset(i){
+  const pr=presets[i];
+  const sal=(parseFloat(document.getElementById('salary').value)||0)
+           +(parseFloat(document.getElementById('carry').value)||0);
+
+  // Clear existing
+  data.expenses=data.expenses.filter(e=>e.type==='float'||e.n!==''||e.a!==0); // keep user floats
+  // Actually: clear fixed expenses that were from preset, keep manually added ones
+  // Simpler: just overwrite allocs, leave expenses intact (per user request: presety = jen rozdělení)
+  // But user wants expenses included in preset too for the % logic.
+  // We'll only set allocs from preset items of type 'alloc',
+  // and for expense-fixed items we'll add them if they don't exist yet (by name match)
+  
+  const newAllocs=[];
+  pr.items.forEach((item,j)=>{
+    if(item.type==='alloc'||item.type===undefined){
+      newAllocs.push({id:++aId,n:item.n,p:item.p,dc:DC[j%6]});
+    } else if(item.type==='expense-fixed'){
+      // add as fixed expense if not already present
+      const exists=data.expenses.find(e=>e.n===item.n&&e.type==='fixed');
+      if(!exists){
+        // compute approximate amount from %
+        const approxAmt=sal>0?Math.round(sal*item.p/100):0;
+        data.expenses.push({id:++eId,n:item.n,a:approxAmt,type:'fixed'});
+      }
+    } else if(item.type==='expense-float'){
+      const exists=data.expenses.find(e=>e.n===item.n&&e.type==='float');
+      if(!exists){
+        const approxAmt=sal>0?Math.round(sal*item.p/100):0;
+        data.expenses.push({id:++eId,n:item.n,a:approxAmt,type:'float'});
+      }
+    }
+  });
+  if(newAllocs.length) data.allocs=newAllocs;
+  saveAndRecalc();
+  renderExpenses('fixed');
+  renderExpenses('float');
+  renderAllocs();
+  document.querySelectorAll('.preset-btn').forEach((b,j)=>{
+    if(b.id==='prb'+i) b.classList.add('active');
+    else b.classList.remove('active');
+  });
+}
+
+// ── Editor ──
+function openEditor(i){
+  editingPresetIdx=i;
+  const pr=presets[i];
+  document.getElementById('pe-title-lbl').textContent='Preset: '+pr.label;
+  renderPeRows(pr.items);
+  document.getElementById('preset-editor').classList.add('open');
+}
+function closeEditor(){
+  document.getElementById('preset-editor').classList.remove('open');
+  editingPresetIdx=null;
+}
+function renderPeRows(items){
+  const c=document.getElementById('pe-rows');
+  c.innerHTML='';
+  items.forEach((item,i)=>{
+    const row=document.createElement('div');
+    row.className='pe-row';
+    // type select
+    const sel=document.createElement('select');
+    sel.className='pe-name';sel.style.fontSize='12px';sel.style.padding='4px 6px';
+    [['alloc','alokace (% ze zbytku)'],['expense-fixed','fixní výdaj (% z platu)'],['expense-float','plovoucí výdaj (% z platu)']].forEach(([v,l])=>{
+      const o=document.createElement('option');o.value=v;o.textContent=l;
+      if(item.type===v) o.selected=true;
+      sel.appendChild(o);
+    });
+    sel.onchange=()=>{items[i].type=sel.value;};
+    // name input
+    const nameInp=document.createElement('input');
+    nameInp.className='pe-name';nameInp.type='text';nameInp.value=item.n;nameInp.placeholder='Název';
+    nameInp.oninput=()=>{items[i].n=nameInp.value;};
+    // pct input
+    const pctInp=document.createElement('input');
+    pctInp.className='pe-val';pctInp.type='number';pctInp.min='0';pctInp.max='100';pctInp.value=item.p;
+    pctInp.oninput=()=>{items[i].p=+pctInp.value;};
+    // del
+    const del=document.createElement('button');
+    del.className='pe-del';del.textContent='×';
+    del.onclick=()=>{items.splice(i,1);renderPeRows(items);};
+    // layout: two rows inside one pe-row: [type select spanning] then [name | pct | del]
+    row.style.gridTemplateColumns='1fr 52px 24px';
+    row.appendChild(nameInp);row.appendChild(pctInp);row.appendChild(del);
+    // add type select above in a full-width row
+    const typeRow=document.createElement('div');
+    typeRow.style.cssText='grid-column:1/-1;display:flex;align-items:center;gap:6px;margin-bottom:4px;';
+    const lbl=document.createElement('span');lbl.textContent='Typ:';lbl.style.cssText='font-size:11px;color:var(--muted);white-space:nowrap;';
+    typeRow.appendChild(lbl);typeRow.appendChild(sel);
+    const wrapper=document.createElement('div');
+    wrapper.style.cssText='display:grid;grid-template-columns:1fr 52px 24px;gap:6px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:4px;';
+    const inner=document.createElement('div');
+    inner.style.cssText='grid-column:1/-1;display:grid;gap:4px;';
+    inner.appendChild(typeRow);
+    const bottomRow=document.createElement('div');
+    bottomRow.style.cssText='display:grid;grid-template-columns:1fr 52px 24px;gap:6px;align-items:center;';
+    bottomRow.appendChild(nameInp);bottomRow.appendChild(pctInp);bottomRow.appendChild(del);
+    inner.appendChild(bottomRow);
+    wrapper.appendChild(inner);
+    c.appendChild(wrapper);
+  });
+}
+function peAddRow(){
+  const pr=presets[editingPresetIdx];
+  pr.items.push({type:'alloc',n:'',p:10});
+  renderPeRows(pr.items);
+}
+function savePreset(){
+  const pr=presets[editingPresetIdx];
+  // get label from first item or keep existing
+  savePresets();
+  renderPresets();
+  closeEditor();
+}
+function savePresets(){
+  localStorage.setItem('rb_presets',JSON.stringify(presets));
+}
+
+// ═══════════════════════════════════════════════
+// CALCULATIONS
+// ═══════════════════════════════════════════════
+function calcFree(){
+  const sal=(parseFloat(document.getElementById('salary').value)||0)
+           +(parseFloat(document.getElementById('carry').value)||0);
+  return sal-data.expenses.reduce((s,e)=>s+e.a,0);
+}
+
+function computeSummary(d){
+  const sal=(+d.salary||0)+(+d.carry||0);
+  const exp=(d.expenses||[]).reduce((s,e)=>s+e.a,0);
+  const free=sal-exp;
+  const allocPct=(d.allocs||[]).reduce((s,a)=>s+a.p,0);
+  const allocCzk=free>0?free*allocPct/100:0;
+  const leftover=sal-exp-allocCzk;
+  return {sal,exp,free,allocPct,allocCzk,leftover};
+}
+
+function recalc(){
+  const salary=parseFloat(document.getElementById('salary').value)||0;
+  const carry=parseFloat(document.getElementById('carry').value)||0;
+  const sal=salary+carry;
+  const fixedExp=data.expenses.filter(e=>e.type==='fixed').reduce((s,e)=>s+e.a,0);
+  const floatExp=data.expenses.filter(e=>e.type==='float').reduce((s,e)=>s+e.a,0);
+  const exp=fixedExp+floatExp;
+  const free=sal-exp;
+  const allocPct=data.allocs.reduce((s,a)=>s+a.p,0);
+  const allocCzk=free>0?free*allocPct/100:0;
+  const leftover=sal-exp-allocCzk;
+
+  document.getElementById('exp-fixed-sum').textContent=fmt(fixedExp);
+  document.getElementById('exp-float-sum').textContent=fmt(floatExp);
+  document.getElementById('alloc-sum').textContent=fmt(allocCzk);
+  document.getElementById('alloc-pct-lbl').textContent=allocPct+'%';
+
+  data.allocs.forEach(a=>{
+    const czk=free>0?Math.round(free*a.p/100):0;
+    const el=document.getElementById('aczk'+a.id);if(el)el.textContent=fmt(czk);
+    const sl=document.querySelector('#ai'+a.id+' .a-slider');if(sl)sl.value=a.p;
+  });
+
+  const spoken=exp+allocCzk;
   const pct=sal>0?Math.min(110,spoken/sal*100):0;
   const fill=document.getElementById('prog');
   fill.style.width=pct+'%';
   fill.classList.toggle('over',spoken>sal);
   document.getElementById('pm-alloc').textContent=fmt(spoken);
   const restEl=document.getElementById('pm-rest');
-  if(leftover>=0){
-    restEl.innerHTML=`zbývá rozdělit: <b>${fmt(leftover)}</b>`;
-  } else {
-    restEl.innerHTML=`<span class="warn">překročeno o ${fmt(-leftover)}</span>`;
-  }
+  if(leftover>=0) restEl.innerHTML=`zbývá: <b>${fmt(leftover)}</b>`;
+  else restEl.innerHTML=`<span class="warn">překročeno o ${fmt(-leftover)}</span>`;
 
-  // summary
-  const rows=[{l:'Příjem',v:sal,cls:''}];
-  if(expTotal>0) rows.push({l:'Výdaje',v:-expTotal,cls:'neg'});
-  allocs.forEach(a=>{
+  let rows=[{l:'Mzda',v:salary}];
+  if(carry) rows.push({l:'Přebytek/schodek',v:carry,cls:carry>=0?'pos':'neg'});
+  if(fixedExp) rows.push({l:'Fixní výdaje',v:-fixedExp,cls:'neg'});
+  if(floatExp) rows.push({l:'Plovoucí výdaje',v:-floatExp,cls:'neg'});
+  data.allocs.forEach(a=>{
     const czk=free>0?Math.round(free*a.p/100):0;
-    if(czk) rows.push({l:a.n,v:-czk,cls:''});
+    if(czk) rows.push({l:a.n,v:-czk});
   });
   rows.push({l:'Nerozděleno',v:leftover,cls:leftover>=0?'pos':'neg',last:true});
-
   document.getElementById('summary').innerHTML=rows.map(r=>`
     <div class="s-row${r.last?' last':''}">
       <span class="s-lbl">${r.l}</span>
-      <span class="s-val ${r.cls}">${r.v>=0?'+':''}${fmt(Math.abs(r.v))}</span>
+      <span class="s-val ${r.cls||''}">${r.v>=0?'+':''}${fmt(Math.abs(r.v))}</span>
     </div>`).join('');
 }
 
-/* ── Init ── */
-DEXPS.forEach(e=>{ exps.push({id:++eId,n:e.n,a:e.a}); });
-DALLOCS.forEach(a=>{ allocs.push({id:++aId,n:a.n,p:a.p,dc:'d'+(allocs.length%6)}); });
-renderExps(); renderAllocs(); recalc();
+// ═══════════════════════════════════════════════
+// SAVE
+// ═══════════════════════════════════════════════
+function saveAndRecalc(){
+  data.salary=parseFloat(document.getElementById('salary').value)||0;
+  data.carry=parseFloat(document.getElementById('carry').value)||0;
+  saveMonth(curYear,curMonth,data);
+  recalc();
+}
+function onSalaryInput(){
+  saveAndRecalc();
+}
+
+// ═══════════════════════════════════════════════
+// YEAR OVERVIEW
+// ═══════════════════════════════════════════════
+function renderYearOverview(){
+  const y=+document.getElementById('year-overview-sel').value;
+  const grid=document.getElementById('year-grid');
+  grid.innerHTML='';
+  for(let m=0;m<12;m++){
+    const md=loadMonth(y,m);
+    const hasData=md.salary||md.expenses.length;
+    const res=computeSummary(md);
+    const isCur=(y===curYear&&m===curMonth);
+    const cell=document.createElement('div');
+    cell.className='mo-cell'+(isCur?' current':'');
+    const barPct=res.sal>0?Math.min(100,res.exp/res.sal*100):0;
+    const v=Math.round(res.leftover);
+    const valTxt=hasData?(v>=0?'+':'')+fmtN(v):'–';
+    const valCls=!hasData?'':(v>=0?'pos':'neg');
+    cell.innerHTML=`
+      <div class="mo-name">${MO[m].substring(0,3).toUpperCase()}</div>
+      <div class="mo-bar"><div class="mo-bar-fill" style="width:${barPct}%"></div></div>
+      <div class="mo-val ${valCls}">${valTxt}</div>`;
+    cell.onclick=()=>{curYear=y;curMonth=m;switchMonth();window.scrollTo({top:0,behavior:'smooth'});};
+    grid.appendChild(cell);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// EXPORT / IMPORT
+// ═══════════════════════════════════════════════
+function exportData(){
+  const all={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k.startsWith('rb_')) all[k]=JSON.parse(localStorage.getItem(k));
+  }
+  dl(JSON.stringify(all,null,2),'application/json','rozpocet_'+today()+'.json');
+}
+function importData(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const all=JSON.parse(ev.target.result);
+      Object.entries(all).forEach(([k,v])=>{if(k.startsWith('rb_'))localStorage.setItem(k,JSON.stringify(v));});
+      switchMonth();renderYearOverview();
+      alert('Data importována.');
+    }catch(err){alert('Chyba: '+err.message);}
+  };
+  r.readAsText(file);e.target.value='';
+}
+function exportCSV(){
+  const rows=[['Rok','Měsíc','Mzda','Přebytek/schodek','Fixní výdaje','Plovoucí výdaje','Alokace celkem','Nerozděleno']];
+  for(let y=new Date().getFullYear()-3;y<=new Date().getFullYear()+1;y++){
+    for(let m=0;m<12;m++){
+      const md=loadMonth(y,m);
+      if(!md.salary&&!md.expenses.length) continue;
+      const res=computeSummary(md);
+      const fx=md.expenses.filter(e=>e.type==='fixed').reduce((s,e)=>s+e.a,0);
+      const fl=md.expenses.filter(e=>e.type==='float').reduce((s,e)=>s+e.a,0);
+      rows.push([y,MO[m],md.salary||0,md.carry||0,fx,fl,Math.round(res.allocCzk),Math.round(res.leftover)]);
+    }
+  }
+  dl('\uFEFF'+rows.map(r=>r.join(';')).join('\n'),'text/csv;charset=utf-8','rozpocet_'+today()+'.csv');
+}
+function dl(content,type,name){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type}));
+  a.download=name;a.click();
+}
+function today(){return new Date().toISOString().slice(0,10);}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function fmt(v){return fmtN(v)+' Kč';}
+function fmtN(v){return Math.round(v).toLocaleString('cs-CZ');}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+init();
 </script>
 </body>
 </html>
