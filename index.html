@@ -21,12 +21,9 @@ h1{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;letter-sp
 .sec-title{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
 
 /* ── Month nav ── */
-.month-nav{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:24px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 16px;position:relative;}
-.month-nav select{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);outline:none;cursor:pointer;}
+.month-nav{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 16px;}
+.month-nav select{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);outline:none;cursor:pointer;text-align:center;}
 .month-nav .sep{color:var(--line);font-size:13px;}
-.carry-badge{position:absolute;right:12px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;}
-.badge-pos{background:#e8f5ee;color:var(--green);}
-.badge-neg{background:#fdf0ef;color:var(--red);}
 
 /* ── Input rows ── */
 .info-row{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:13px 18px;margin-bottom:8px;}
@@ -34,7 +31,7 @@ h1{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;letter-sp
 .info-val{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;text-align:right;width:110px;}
 /* iOS fix: prevent auto-zoom on input focus — all inputs must be >= 16px */
 input{font-size:16px !important;}
-.info-val.big{font-family:'Instrument Serif',serif;font-size:1.8rem;width:auto;min-width:0;flex:1;}
+.info-val.big{font-family:'Instrument Sans',sans-serif;font-size:1.6rem;font-weight:600;width:auto;min-width:0;flex:1;}
 .info-val{font-size:16px;}
 .info-unit{color:var(--muted);font-size:12px;white-space:nowrap;}
 .info-val::placeholder{color:var(--line);}
@@ -67,12 +64,12 @@ input{font-size:16px !important;}
 .sec{margin-bottom:24px;}
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .sec-sum{font-size:13px;font-weight:600;}
-.sort-btn{background:none;border:1px solid var(--line);cursor:pointer;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:5px;transition:color .15s,border-color .15s;}
+.sort-btn{background:none;border:1px solid var(--line);cursor:pointer;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:5px;transition:color .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}
 .sort-btn.on,.sort-btn:hover{color:var(--ink);border-color:#aaa;}
 
 /* ── Expense items ── */
 .items{display:flex;flex-direction:column;gap:2px;}
-.item{background:var(--white);border:1px solid var(--line);border-radius:8px;display:grid;grid-template-columns:1fr auto auto 28px;align-items:center;padding:0 6px 0 12px;gap:6px;transition:border-color .15s;}
+.item{background:var(--white);border:1px solid var(--line);border-radius:8px;display:grid;grid-template-columns:1fr auto 28px;align-items:center;padding:0 6px 0 12px;gap:6px;transition:border-color .15s;}
 .item:focus-within{border-color:#bbb;}
 .item-name{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;padding:10px 0;min-width:0;width:100%;}
 .item-name::placeholder{color:var(--line);}
@@ -95,7 +92,7 @@ input{font-size:16px !important;}
 /* ── Alloc block ── */
 /* Each alloc has: fixní Kč + podíl z přebytku (%) */
 .alloc-outer{background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:4px;}
-.alloc-row{display:grid;grid-template-columns:10px 1fr 130px 28px;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);}
+.alloc-row{display:grid;grid-template-columns:10px 1fr 130px 28px;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);}
 .alloc-row:last-child{border-bottom:none;}
 .alloc-row:focus-within{background:#fafaf8;}
 .a-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
@@ -117,34 +114,32 @@ input{font-size:16px !important;}
 .a-split-in:focus{border-color:#999;}
 .a-split-unit{font-size:11px;color:var(--muted);}
 
-/* Zbytek k rozdělení info bar */
-.rest-bar{display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:6px;}
+/* Zbytek k rozdělení info bar — no big Kč value, just label+presets */
+.rest-bar{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:6px;}
 .rest-bar-label{font-size:12px;color:var(--muted);font-weight:600;}
-.rest-bar-val{font-size:14px;font-weight:600;color:var(--ink);}
-.rest-bar-pcts{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
-.rest-preset{background:none;border:1px solid var(--line);border-radius:5px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;transition:border-color .15s,color .15s;}
+.rest-bar-pcts{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;align-items:center;}
+.rest-preset{background:none;border:1px solid var(--line);border-radius:5px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;transition:border-color .15s,color .15s;display:flex;align-items:center;gap:4px;}
 .rest-preset:hover{border-color:#aaa;color:var(--ink);}
-/* auto button */
-.auto-btn{background:none;border:1px solid var(--line);border-radius:5px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;color:var(--muted);padding:3px 10px;transition:border-color .15s,color .15s;display:flex;align-items:center;gap:4px;}
+.rest-preset-del{background:none;border:none;color:var(--line);cursor:pointer;font-size:12px;padding:0 0 0 2px;line-height:1;transition:color .15s;}
+.rest-preset-del:hover{color:var(--red);}
+.rest-preset-add{background:none;border:1px dashed var(--line);border-radius:5px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;transition:border-color .15s,color .15s;}
+.rest-preset-add:hover{border-color:#aaa;color:var(--ink);}
+/* auto button — now also shows the rest amount */
+.auto-btn{background:none;border:1px solid var(--line);border-radius:5px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;color:var(--muted);padding:3px 10px;transition:border-color .15s,color .15s;display:flex;align-items:center;gap:5px;white-space:nowrap;}
 .auto-btn:hover{border-color:#aaa;color:var(--ink);}
 .auto-btn svg{flex-shrink:0;}
+.auto-btn-val{font-weight:700;color:var(--ink);}
 
-/* ── Summary ── */
+/* ── Summary — uniform rows, no special last-child ── */
 .summary{background:var(--ink);color:var(--white);border-radius:10px;padding:18px 20px;margin-bottom:28px;}
-.s-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid #252525;}
-.s-row:last-child{border-bottom:none;padding-top:14px;margin-top:4px;}
-.s-row:last-child .s-lbl{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#888;font-weight:600;}
-.s-row:last-child .s-val{font-family:'Instrument Serif',serif;font-size:1.6rem;}
-.s-lbl{font-size:13px;color:#888;}
+.s-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid #252525;}
+.s-row:last-child{border-bottom:none;}
+.s-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#888;}
 .s-val{font-size:13px;font-weight:600;}
 .s-val.neg{color:#e07070;}
 .s-val.pos{color:#7fc88a;}
-.s-indent{padding-left:14px;color:#666;}
-
-/* savings summary line */
-.s-savings{margin-top:10px;padding-top:10px;border-top:1px solid #252525;}
-.s-savings .s-lbl{color:#7fc88a;}
-.s-savings .s-val{color:#7fc88a;}
+.s-val.big{font-family:'Instrument Serif',serif;font-size:1.5rem;}
+.s-indent{padding-left:14px;color:#666;text-transform:none;letter-spacing:0;font-weight:400;}
 
 /* ── Year overview ── */
 .year-sec{margin-bottom:28px;}
@@ -162,8 +157,8 @@ input{font-size:16px !important;}
 .year-select{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);outline:none;cursor:pointer;margin-left:6px;}
 
 /* ── Actions ── */
-.actions{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;}
-.action-btn{background:var(--white);border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:600;padding:9px 16px;transition:border-color .15s,background .15s;display:flex;align-items:center;gap:6px;}
+.actions{display:flex;gap:8px;margin-bottom:32px;}
+.action-btn{background:var(--white);border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:600;padding:9px 0;transition:border-color .15s,background .15s;display:flex;align-items:center;justify-content:center;gap:6px;flex:1;}
 .action-btn:hover{border-color:#aaa;background:#f2f1ee;}
 
 .divider{height:1px;background:var(--line);margin:4px 0 22px;}
@@ -186,12 +181,11 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 <h1>Rozpočet</h1>
 <p class="sub">Rozlož celou výplatu — nic nezůstane volně na účtu.</p>
 
-<!-- Month nav: Měsíc / Rok -->
+<!-- Month nav: Měsíc / Rok — no badge -->
 <div class="month-nav">
   <select id="sel-month"></select>
   <span class="sep">/</span>
   <select id="sel-year"></select>
-  <span id="carry-badge" class="carry-badge" style="display:none"></span>
 </div>
 
 <!-- Salary -->
@@ -263,19 +257,10 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
     </div>
   </div>
 
-  <!-- Zbytek k rozdělení info -->
+  <!-- Zbytek k rozdělení — presets only, editable -->
   <div class="rest-bar">
-    <div>
-      <div class="rest-bar-label">Zbytek k rozdělení <span id="rest-pct-lbl" style="color:var(--ink);font-weight:700;margin-left:2px;"></span></div>
-      <div class="rest-bar-pcts" id="split-presets">
-        <button class="rest-preset" onclick="applySplitPreset([100,0,0])">vše první</button>
-        <button class="rest-preset" onclick="applySplitPreset([50,50,0])">50/50</button>
-        <button class="rest-preset" onclick="applySplitPreset([33,33,34])">33/33/34</button>
-        <button class="rest-preset" onclick="applySplitPreset([60,30,10])">60/30/10</button>
-        <button class="rest-preset" onclick="applySplitPreset([80,15,5])">80/15/5</button>
-      </div>
-    </div>
-    <span class="rest-bar-val" id="rest-czk">0 Kč</span>
+    <div class="rest-bar-label" style="font-size:11px;letter-spacing:.07em;text-transform:uppercase;">Zbytek k rozdělení <span id="rest-pct-lbl" style="color:var(--ink);font-weight:700;margin-left:2px;"></span></div>
+    <div class="rest-bar-pcts" id="split-presets"></div>
   </div>
 
   <div class="alloc-outer" id="alloc-list"></div>
@@ -321,6 +306,72 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 // ══════════════════════════════════════════════════
 const MO=['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
 const DC=['d0','d1','d2','d3','d4','d5'];
+
+// Editable split presets stored in localStorage
+const DEFAULT_SPLIT_PRESETS=[
+  {label:'vše první',pcts:[100,0,0]},
+  {label:'50/50',pcts:[50,50,0]},
+  {label:'33/33/34',pcts:[33,33,34]},
+  {label:'60/30/10',pcts:[60,30,10]},
+  {label:'80/15/5',pcts:[80,15,5]},
+];
+function loadSplitPresets(){try{const r=localStorage.getItem('rb_split_presets');if(r)return JSON.parse(r);}catch(e){}return JSON.parse(JSON.stringify(DEFAULT_SPLIT_PRESETS));}
+function saveSplitPresets(ps){localStorage.setItem('rb_split_presets',JSON.stringify(ps));}
+let splitPresets=loadSplitPresets();
+
+function renderSplitPresets(){
+  const c=document.getElementById('split-presets');
+  c.innerHTML='';
+  splitPresets.forEach((pr,i)=>{
+    const btn=document.createElement('button');
+    btn.className='rest-preset';
+    btn.onclick=()=>applySplitPreset(pr.pcts);
+    // editable label on dblclick
+    const lbl=document.createElement('span');
+    lbl.textContent=pr.label;
+    lbl.title='Dvojklik pro přejmenování';
+    lbl.ondblclick=(e)=>{
+      e.stopPropagation();
+      const inp=document.createElement('input');
+      inp.value=pr.label;inp.style.cssText='border:none;background:transparent;font:inherit;width:'+(pr.label.length+1)+'ch;outline:none;';
+      inp.onblur=()=>{pr.label=inp.value||pr.label;saveSplitPresets(splitPresets);renderSplitPresets();};
+      inp.onkeydown=(ev)=>{if(ev.key==='Enter')inp.blur();if(ev.key==='Escape'){inp.value=pr.label;inp.blur();}};
+      lbl.replaceWith(inp);inp.focus();inp.select();
+    };
+    const del=document.createElement('button');
+    del.className='rest-preset-del';del.textContent='×';del.title='Smazat';
+    del.onclick=(e)=>{e.stopPropagation();splitPresets.splice(i,1);saveSplitPresets(splitPresets);renderSplitPresets();};
+    btn.appendChild(lbl);btn.appendChild(del);
+    c.appendChild(btn);
+  });
+  // Add new preset — inline (no prompt, works on iOS)
+  const add=document.createElement('button');
+  add.className='rest-preset-add';add.textContent='+ přidat';
+  add.onclick=()=>{
+    // Replace button with two inline inputs
+    const wrap=document.createElement('span');
+    wrap.style.cssText='display:inline-flex;align-items:center;gap:4px;';
+    const iLabel=document.createElement('input');
+    iLabel.placeholder='název';iLabel.style.cssText='border:1px solid var(--line);border-radius:4px;font:inherit;font-size:11px;width:70px;padding:2px 5px;outline:none;';
+    const iPcts=document.createElement('input');
+    iPcts.placeholder='50/50';iPcts.style.cssText='border:1px solid var(--line);border-radius:4px;font:inherit;font-size:11px;width:54px;padding:2px 5px;outline:none;';
+    const ok=document.createElement('button');
+    ok.textContent='✓';ok.style.cssText='background:none;border:1px solid var(--line);border-radius:4px;cursor:pointer;font-size:11px;padding:2px 6px;';
+    ok.onclick=()=>{
+      const label=iLabel.value.trim()||iPcts.value.trim();
+      const pcts=iPcts.value.split('/').map(Number).filter(n=>!isNaN(n)&&n>0);
+      if(label&&pcts.length){splitPresets.push({label,pcts});saveSplitPresets(splitPresets);}
+      renderSplitPresets();
+    };
+    const cancel=document.createElement('button');
+    cancel.textContent='×';cancel.style.cssText='background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 2px;';
+    cancel.onclick=()=>renderSplitPresets();
+    wrap.appendChild(iLabel);wrap.appendChild(iPcts);wrap.appendChild(ok);wrap.appendChild(cancel);
+    add.replaceWith(wrap);
+    iLabel.focus();
+  };
+  c.appendChild(add);
+}
 
 let curY,curM;
 let sortFixed=true,sortVar=true;
@@ -369,6 +420,7 @@ function init(){
   }
   yo.value=curY;
 
+  renderSplitPresets();
   switchMonth();
 }
 
@@ -389,19 +441,31 @@ function updateCarryBadge(){
   let py=curY,pm=curM-1; if(pm<0){pm=11;py--;}
   const prev=loadMonth(py,pm);
   const res=computeSummary(prev);
-  const badge=document.getElementById('carry-badge');
+
+  // Auto-fill carry from previous month leftover
   if((+data.carry||0)===0 && Math.round(res.leftover)!==0 && (prev.salary||prev.expenses.length)){
-    const v=Math.round(res.leftover);
-    badge.textContent=(v>0?'+':'')+fmtN(v)+' Kč';
-    badge.className='carry-badge '+(v>=0?'badge-pos':'badge-neg');
-    badge.style.display='';badge.style.cursor='pointer';
-    badge.title='Přenést z '+MO[pm];
-    badge.onclick=()=>{data.carry=v;document.getElementById('carry').value=v;badge.style.display='none';badge.onclick=null;saveAndRecalc();};
-  } else {
-    const v=+data.carry||0;
-    if(v!==0){badge.textContent=(v>0?'+':'')+fmtN(v)+' Kč';badge.className='carry-badge '+(v>0?'badge-pos':'badge-neg');badge.style.display='';}
-    else{badge.style.display='none';badge.textContent='';}
-    badge.onclick=null;badge.style.cursor='default';badge.title='';
+    data.carry=Math.round(res.leftover);
+    document.getElementById('carry').value=data.carry;
+    updateCarryRowColor();
+    saveMonth(curY,curM,data);
+  }
+
+  // Auto-fill savingsBal from previous month
+  if((!data.savingsBal||data.savingsBal===0) && (prev.savingsBal||0)!==0){
+    data.savingsBal=prev.savingsBal;
+    document.getElementById('savings-bal').value=data.savingsBal;
+    saveMonth(curY,curM,data);
+  }
+
+  // Auto-carry expenses from prev month if current has none
+  if(data.expenses.length===0 && prev.expenses && prev.expenses.length>0){
+    data.expenses=prev.expenses.map(e=>({
+      ...e,
+      id:++eId,
+      // variabilní: keep name, clear amount
+      a: e.type==='var' ? 0 : e.a
+    }));
+    saveMonth(curY,curM,data);
   }
 }
 
@@ -439,9 +503,6 @@ function renderExpenses(type){
           oninput="updExpAmt(${e.id},this.value)" onblur="sortOnBlur('${type}')">
         <span class="item-kc">Kč</span>
       </div>
-      <button class="type-tog ${type==='fixed'?'tog-fixed':'tog-var'}"
-        onclick="moveExpType(${e.id})" title="Přesunout do ${type==='fixed'?'variabilních':'fixních'}">
-        ${type==='fixed'?'fixní':'variabilní'}</button>
       <button class="del" onclick="delExp(${e.id})">×</button>`;
     list.appendChild(row);
   });
@@ -514,7 +575,7 @@ function renderAllocs(){
           <span class="a-fix-unit">Kč</span>
         </div>
         <div class="a-split-wrap">
-          <span class="a-split-label">přebytek</span>
+          <span class="a-split-label">zbytek</span>
           <input class="a-split-in" type="number" min="0" max="100" placeholder="0" value="${a.splitPct||''}"
             oninput="updAllocSplit(${a.id},+this.value)">
           <span class="a-split-unit">%</span>
@@ -546,8 +607,14 @@ function refreshAllocSubs(){
 }
 
 function addAlloc(){
+  if(!data) return;
+  if(!data.allocs) data.allocs=[];
   data.allocs.push({id:++aId,n:'Nová kategorie',fixAmt:0,splitPct:0,dc:DC[data.allocs.length%6]});
-  saveAndRecalc();renderAllocs();
+  saveAndRecalc();
+  renderAllocs();
+  // focus the new name input
+  const last=document.querySelector('#ai'+data.allocs[data.allocs.length-1].id+' .a-name');
+  if(last){last.focus();last.select();}
 }
 function delAlloc(id){
   data.allocs=data.allocs.filter(a=>a.id!==id);
@@ -599,8 +666,7 @@ function recalc(){
   document.getElementById('sum-var').textContent=fmt(varExp);
   document.getElementById('sum-alloc').textContent=fmt(allocTotal);
 
-  // Rest bar
-  document.getElementById('rest-czk').textContent=fmt(rest);
+  // Rest bar + auto btn
   document.getElementById('rest-pct-lbl').textContent=splitSum>0?splitSum+'%':'';
 
   // Alloc sub-labels
@@ -616,37 +682,28 @@ function recalc(){
   if(leftover>=0)restEl.innerHTML=`zbývá: <b>${fmt(leftover)}</b>`;
   else restEl.innerHTML=`<span class="warn">překročeno o ${fmt(-leftover)}</span>`;
 
-  // Summary
-  let rows=[{l:'Mzda',v:salary}];
-  if(carry)rows.push({l:'Přebytek/schodek',v:carry,cls:carry>=0?'pos':'neg'});
+  // Summary — all rows uniform, no special last-child treatment
+  let rows=[{l:'Mzda',v:salary,cls:''}];
+  if(carry)rows.push({l:'Z min. měsíce',v:carry,cls:carry>=0?'pos':'neg'});
   if(fixedExp)rows.push({l:'Fixní výdaje',v:-fixedExp,cls:'neg'});
   if(varExp)rows.push({l:'Variabilní výdaje',v:-varExp,cls:'neg'});
   data.allocs.forEach(a=>{
     const bonus=Math.round(rest*(+a.splitPct||0)/100);
     const total=(+a.fixAmt||0)+bonus;
-    if(total)rows.push({l:a.n,v:-total,sub:a.fixAmt&&bonus?`${fmt(+a.fixAmt)} fix + ${fmt(bonus)} přebytek`:null});
+    if(total)rows.push({l:a.n,v:-total,sub:a.fixAmt&&bonus?`${fmt(+a.fixAmt)} fix + ${fmt(bonus)} zbytek`:null});
   });
-  rows.push({l:'Nerozděleno',v:leftover,cls:leftover>=0?'pos':'neg',last:true});
-
-  let html=rows.map(r=>`
-    <div class="s-row${r.last?' last':''}">
-      <span class="s-lbl">${r.l}${r.sub?`<br><span class="s-indent" style="font-size:11px;">${r.sub}</span>`:''}</span>
-      <span class="s-val ${r.cls||''}">${r.v>=0?'+':''}${fmt(Math.abs(r.v))}</span>
-    </div>`).join('');
-
-  // Savings account line
+  rows.push({l:'Nerozděleno',v:leftover,cls:leftover>=0?'pos':'neg'});
   if(savBal){
-    // Project what savings will look like after this month's savings allocs
     const savAlloc=data.allocs.filter(a=>a.n.toLowerCase().includes('spořen')||a.n.toLowerCase().includes('rezerv'))
       .reduce((s,a)=>{const b=Math.round(rest*(+a.splitPct||0)/100);return s+(+a.fixAmt||0)+b;},0);
-    const projected=savBal+savAlloc;
-    html+=`<div class="s-row s-savings">
-      <span class="s-lbl">Spořicí účet${savAlloc?` (+ ${fmt(savAlloc)})`:''}</span>
-      <span class="s-val pos">${fmt(projected)}</span>
-    </div>`;
+    rows.push({l:'Spořicí účet'+(savAlloc?` (+${fmt(savAlloc)})`:''),v:savBal+savAlloc,cls:'pos',green:true});
   }
 
-  document.getElementById('summary').innerHTML=html;
+  document.getElementById('summary').innerHTML=rows.map(r=>`
+    <div class="s-row">
+      <span class="s-lbl" ${r.green?'style="color:#7fc88a"':''}>${r.l}${r.sub?`<br><span class="s-indent" style="font-size:11px;">${r.sub}</span>`:''}</span>
+      <span class="s-val ${r.cls||''}">${r.v>=0?'+':''}${fmt(Math.abs(r.v))}</span>
+    </div>`).join('');
 }
 
 // ══════════════════════════════════════════════════
@@ -751,7 +808,7 @@ function td(){return new Date().toISOString().slice(0,10);}
 // UTILS
 // ══════════════════════════════════════════════════
 function fmt(v){return fmtN(v)+' Kč';}
-function fmtN(v){return Math.round(v).toLocaleString('cs-CZ');}
+function fmtN(v){return Math.round(v).toLocaleString('cs-CZ').replace(/\u00a0/g,' ');}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
 init();
