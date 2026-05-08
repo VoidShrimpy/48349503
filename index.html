@@ -27,17 +27,22 @@ h1{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;letter-sp
 
 /* ── Month nav ── */
 .month-nav{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:24px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 16px;}
-/* Tight select — no extra gap between text and native arrow */
-.month-nav select{
-  border:none;background:transparent;
-  font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;
-  letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink);outline:none;cursor:pointer;
-  -webkit-appearance:auto;appearance:auto;
-  /* Remove extra padding that creates gap on iOS/macOS */
-  padding:0;margin:0;
-}
 .month-nav .sep{color:var(--line);font-size:13px;}
+/* Custom select wrapper — text sized exactly to content */
+.nav-sel-wrap{position:relative;display:inline-flex;align-items:center;}
+.nav-sel-label{
+  font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+  pointer-events:none;white-space:nowrap;
+}
+.nav-sel-arrow{
+  font-size:10px;color:var(--muted);margin-left:3px;pointer-events:none;
+  line-height:1;
+}
+.nav-sel-wrap select{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;cursor:pointer;font-size:16px;
+}
 
 /* ── Info rows ── */
 .info-row{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:13px 18px;margin-bottom:8px;}
@@ -243,7 +248,7 @@ h1{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;letter-sp
 <!-- Savings -->
 <div class="info-row savings-row" style="margin-bottom:22px;">
   <span class="info-label">Spořicí účet</span>
-  <input class="info-val" type="number" id="savings-bal" placeholder="0" oninput="saveAndRecalc()">
+  <input class="info-val" type="number" id="savings-bal" placeholder="0" min="0" oninput="onSavingsInput()">
   <span class="info-unit">Kč</span>
 </div>
 
@@ -739,6 +744,11 @@ function saveAndRecalc(){
   recalc();
 }
 function onCarryInput(){updateCarryRowColor();saveAndRecalc();}
+function onSavingsInput(){
+  const el=document.getElementById('savings-bal');
+  if(+el.value<0)el.value=0;
+  saveAndRecalc();
+}
 function updateCarryRowColor(){
   const v=+document.getElementById('carry').value||0;
   const row=document.getElementById('carry-row');
