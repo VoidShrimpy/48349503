@@ -15,41 +15,46 @@
 body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:14px;min-height:100vh;padding:40px 18px 80px;}
 .wrap{max-width:580px;margin:0 auto;}
 
+/* iOS: prevent auto-zoom — all inputs ≥16px */
+input{font-size:16px !important;font-family:'Instrument Sans',sans-serif !important;}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
+
 /* ── Typography ── */
 h1{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;letter-spacing:-.02em;margin-bottom:4px;text-align:center;}
 .sub{color:var(--muted);font-size:13px;margin-bottom:28px;text-align:center;}
 .sec-title{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
 
 /* ── Month nav ── */
-.month-nav{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 16px;}
-.month-nav select{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);outline:none;cursor:pointer;text-align:center;}
+.month-nav{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:24px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 16px;}
+/* Tight select — no extra gap between text and native arrow */
+.month-nav select{
+  border:none;background:transparent;
+  font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);outline:none;cursor:pointer;
+  -webkit-appearance:auto;appearance:auto;
+  /* Remove extra padding that creates gap on iOS/macOS */
+  padding:0;margin:0;
+}
 .month-nav .sep{color:var(--line);font-size:13px;}
 
-/* ── Input rows ── */
-.info-row{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:13px 18px;margin-bottom:8px;}
-.info-label{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;flex:1;}
-.info-val{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;text-align:right;width:110px;}
-/* iOS fix: prevent auto-zoom on input focus — all inputs must be >= 16px */
-input{font-size:16px !important;}
-.info-val.big{font-family:'Instrument Sans',sans-serif;font-size:1.6rem;font-weight:600;width:auto;min-width:0;flex:1;}
-.info-val{font-size:16px;}
-.info-unit{color:var(--muted);font-size:12px;white-space:nowrap;}
+/* ── Info rows ── */
+.info-row{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:13px 18px;margin-bottom:8px;}
+.info-label{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;flex:none;}
+.info-val{border:none;background:transparent;font-size:16px !important;font-weight:600;color:var(--ink);outline:none;text-align:right;flex:1;min-width:0;}
 .info-val::placeholder{color:var(--line);}
+.info-unit{color:var(--muted);font-size:12px;white-space:nowrap;flex:none;}
 
-/* savings account row — slightly highlighted */
-.savings-row{border-color:#8fe0a060;background:#f4fbf6;}
-.savings-row .info-label{color:#2d7a4f;}
-.savings-row .info-val{color:#2d7a4f;}
-
-/* carry row — colored by sign */
+/* carry row colors */
 .carry-pos{border-color:#8fe0a060;background:#f4fbf6;}
-.carry-pos .info-label{color:#2d7a4f;}
-.carry-pos .info-val{color:#2d7a4f;}
-.carry-pos .info-unit{color:#2d7a4f;}
+.carry-pos .info-label,.carry-pos .info-val,.carry-pos .info-unit{color:#2d7a4f;}
 .carry-neg{border-color:#f2949460;background:#fdf5f5;}
-.carry-neg .info-label{color:var(--red);}
-.carry-neg .info-val{color:var(--red);}
-.carry-neg .info-unit{color:var(--red);}
+.carry-neg .info-label,.carry-neg .info-val,.carry-neg .info-unit{color:var(--red);}
+
+/* savings/cash rows */
+.savings-row{border-color:#8fe0a060;background:#f4fbf6;}
+.savings-row .info-label,.savings-row .info-val,.savings-row .info-unit{color:#2d7a4f;}
 
 /* ── Progress ── */
 .prog-wrap{margin-bottom:28px;}
@@ -64,23 +69,30 @@ input{font-size:16px !important;}
 .sec{margin-bottom:24px;}
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .sec-sum{font-size:13px;font-weight:600;}
-.sort-btn{background:none;border:1px solid var(--line);cursor:pointer;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:5px;transition:color .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}
+
+/* sort btn — fixed size */
+.sort-btn{
+  background:none;border:1px solid var(--line);cursor:pointer;
+  color:var(--muted);font-size:12px;font-weight:600;
+  width:26px;height:26px;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:color .15s,border-color .15s;
+}
 .sort-btn.on,.sort-btn:hover{color:var(--ink);border-color:#aaa;}
 
 /* ── Expense items ── */
 .items{display:flex;flex-direction:column;gap:2px;}
-.item{background:var(--white);border:1px solid var(--line);border-radius:8px;display:grid;grid-template-columns:1fr auto 28px;align-items:center;padding:0 6px 0 12px;gap:6px;transition:border-color .15s;}
+/* name | amt+kc | del */
+.item{background:var(--white);border:1px solid var(--line);border-radius:8px;
+  display:grid;grid-template-columns:1fr auto 28px;
+  align-items:center;padding:0 6px 0 12px;gap:6px;transition:border-color .15s;}
 .item:focus-within{border-color:#bbb;}
-.item-name{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;padding:10px 0;min-width:0;width:100%;}
+.item-name{border:none;background:transparent;font-size:14px !important;color:var(--ink);outline:none;padding:10px 0;min-width:0;width:100%;}
 .item-name::placeholder{color:var(--line);}
-.item-amt-wrap{display:flex;align-items:center;gap:3px;}
-.item-num{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink);outline:none;text-align:right;width:72px;padding:10px 0;}
+.item-amt-wrap{display:flex;align-items:center;gap:3px;white-space:nowrap;}
+.item-num{border:none;background:transparent;font-size:14px !important;font-weight:500;color:var(--ink);outline:none;text-align:right;width:80px;padding:10px 0;}
 .item-num::placeholder{color:var(--line);}
-.item-kc{font-size:11px;color:var(--muted);white-space:nowrap;}
-.type-tog{font-size:10px;font-weight:600;letter-spacing:.03em;padding:2px 8px;border-radius:20px;cursor:pointer;border:none;white-space:nowrap;transition:opacity .15s;}
-.type-tog:hover{opacity:.7;}
-.tog-fixed{background:#e8f0fe;color:#3a6bc4;}
-.tog-var{background:#fef8e8;color:#b07c1a;}
+.item-kc{font-size:11px;color:var(--muted);}
 .del{background:none;border:none;color:var(--line);cursor:pointer;font-size:16px;padding:6px 4px;border-radius:4px;transition:color .15s;line-height:1;}
 .del:hover{color:var(--red);}
 .add-btn{margin-top:4px;background:none;border:1px dashed var(--line);border-radius:8px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:12px;padding:8px 14px;width:100%;text-align:left;transition:border-color .15s,color .15s;}
@@ -89,57 +101,78 @@ input{font-size:16px !important;}
 .tag-var{background:#fef8e8;color:#b07c1a;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;margin-left:4px;}
 .exp-pct{font-size:11px;font-weight:600;color:var(--muted);margin-left:4px;}
 
-/* ── Alloc block ── */
-/* Each alloc has: fixní Kč + podíl z přebytku (%) */
-.alloc-outer{background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:4px;}
-.alloc-row{display:grid;grid-template-columns:10px 1fr 130px 28px;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);}
-.alloc-row:last-child{border-bottom:none;}
-.alloc-row:focus-within{background:#fafaf8;}
-.a-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.a-name-col{display:flex;flex-direction:column;min-width:0;gap:2px;}
-.a-name{border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);outline:none;width:100%;}
-.a-sub{font-size:11px;color:var(--muted);}/* shows "fixní: X Kč + bonus: Y Kč = Z Kč" */
+/* ── Investování section ── */
+/* header: title + % | k rozdělení + amt */
+.invest-head-right{display:flex;align-items:center;gap:10px;}
+.invest-rest-lbl{font-size:11px;color:var(--muted);}
 
-/* right controls: fix amount input */
-.a-ctrl{display:flex;flex-direction:column;gap:4px;align-items:flex-end;}
-.a-fix-wrap{display:flex;align-items:center;gap:4px;}
-.a-fix-label{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;}
-.a-fix-in{border:1px solid var(--line);border-radius:5px;background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);outline:none;text-align:right;width:70px;height:26px;padding:0 6px;}
-.a-fix-in:focus{border-color:#999;}
-.a-fix-unit{font-size:11px;color:var(--muted);}
-/* split % input per alloc */
-.a-split-wrap{display:flex;align-items:center;gap:4px;}
-.a-split-label{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;}
-.a-split-in{border:1px solid var(--line);border-radius:5px;background:var(--bg);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);outline:none;text-align:right;width:44px;height:26px;padding:0 6px;}
-.a-split-in:focus{border-color:#999;}
-.a-split-unit{font-size:11px;color:var(--muted);}
-
-/* Zbytek k rozdělení info bar — no big Kč value, just label+presets */
-.rest-bar{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:6px;}
-.rest-bar-label{font-size:12px;color:var(--muted);font-weight:600;}
-.rest-bar-pcts{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;align-items:center;}
-.rest-preset{background:none;border:1px solid var(--line);border-radius:5px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;transition:border-color .15s,color .15s;display:flex;align-items:center;gap:4px;}
+/* preset row */
+.preset-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;align-items:center;}
+.rest-preset{background:none;border:1px solid var(--line);border-radius:5px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;transition:border-color .15s,color .15s;display:flex;align-items:center;gap:3px;}
 .rest-preset:hover{border-color:#aaa;color:var(--ink);}
-.rest-preset-del{background:none;border:none;color:var(--line);cursor:pointer;font-size:12px;padding:0 0 0 2px;line-height:1;transition:color .15s;}
-.rest-preset-del:hover{color:var(--red);}
+.rest-preset-del{background:none;border:none;color:transparent;cursor:pointer;font-size:11px;padding:0;line-height:1;transition:color .15s;width:10px;}
+.rest-preset:hover .rest-preset-del{color:var(--muted);}
+.rest-preset-del:hover{color:var(--red) !important;}
 .rest-preset-add{background:none;border:1px dashed var(--line);border-radius:5px;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;transition:border-color .15s,color .15s;}
 .rest-preset-add:hover{border-color:#aaa;color:var(--ink);}
-/* auto button — now also shows the rest amount */
-.auto-btn{background:none;border:1px solid var(--line);border-radius:5px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;color:var(--muted);padding:3px 10px;transition:border-color .15s,color .15s;display:flex;align-items:center;gap:5px;white-space:nowrap;}
-.auto-btn:hover{border-color:#aaa;color:var(--ink);}
-.auto-btn svg{flex-shrink:0;}
-.auto-btn-val{font-weight:700;color:var(--ink);}
 
-/* ── Summary — uniform rows, no special last-child ── */
+/* alloc rows — flush with section, no extra outer box padding */
+.alloc-outer{background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:4px;}
+/* grid: name+sub | fix-input | split-input | del */
+.alloc-row{
+  display:grid;
+  grid-template-columns:1fr 90px 72px 28px;
+  align-items:center;gap:8px;
+  padding:9px 12px;
+  border-bottom:1px solid var(--line);
+}
+.alloc-row:last-child{border-bottom:none;}
+.alloc-row:focus-within{background:#fafaf8;}
+
+.a-name-col{display:flex;flex-direction:column;min-width:0;}
+.a-name{
+  border:none;background:transparent;
+  font-size:14px !important;font-weight:500;color:var(--ink);
+  outline:none;width:100%;padding:0;
+}
+.a-sub{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* fix + split columns — label above, input below, centered */
+.a-col{display:flex;flex-direction:column;align-items:stretch;gap:2px;}
+.a-col-lbl{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase;text-align:center;}
+.a-inp-row{display:flex;align-items:center;gap:2px;}
+.a-inp{
+  border:1px solid var(--line);border-radius:5px;background:var(--bg);
+  font-size:14px !important;font-weight:600;color:var(--ink);
+  outline:none;text-align:center;height:28px;padding:0 3px;
+  flex:1;min-width:0;
+}
+.a-inp:focus{border-color:#999;}
+.a-inp-unit{font-size:10px;color:var(--muted);flex-shrink:0;}
+
+/* Nerozděleno inside investování */
+.alloc-leftover{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;background:var(--bg);
+  border:1px solid var(--line);border-radius:8px;margin-top:4px;
+}
+.alloc-leftover-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.alloc-leftover-val{font-size:13px;font-weight:700;}
+
+/* ── Summary ── */
 .summary{background:var(--ink);color:var(--white);border-radius:10px;padding:18px 20px;margin-bottom:28px;}
-.s-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid #252525;}
+.s-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #252525;}
 .s-row:last-child{border-bottom:none;}
-.s-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#888;}
-.s-val{font-size:13px;font-weight:600;}
-.s-val.neg{color:#e07070;}
-.s-val.pos{color:#7fc88a;}
-.s-val.big{font-family:'Instrument Serif',serif;font-size:1.5rem;}
-.s-indent{padding-left:14px;color:#666;text-transform:none;letter-spacing:0;font-weight:400;}
+.s-row.hl-green{background:#1e2e24;margin:0 -20px;padding:7px 20px;border-bottom:1px solid #252525;}
+.s-row.hl-red{background:#2e1e1e;margin:0 -20px;padding:7px 20px;border-bottom:1px solid #252525;}
+.s-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.s-lbl.gray{color:#888;}
+.s-lbl.green{color:#7fc88a;}
+.s-lbl.red{color:#e07070;}
+.s-val{font-size:13px;font-weight:600;color:var(--white);}
+.s-val.green{color:#7fc88a;}
+.s-val.red{color:#e07070;}
+.s-val.muted{color:#aaa;}
 
 /* ── Year overview ── */
 .year-sec{margin-bottom:28px;}
@@ -148,6 +181,7 @@ input{font-size:16px !important;}
 .mo-cell{background:var(--white);border:1px solid var(--line);border-radius:7px;padding:8px 4px;text-align:center;cursor:pointer;transition:border-color .15s;}
 .mo-cell:hover{border-color:#bbb;}
 .mo-cell.current{border-color:var(--ink);}
+.mo-cell.future{opacity:.4;}
 .mo-name{font-size:11px;font-weight:600;letter-spacing:.04em;}
 .mo-bar{height:3px;border-radius:3px;margin:5px 2px 3px;background:var(--line);overflow:hidden;}
 .mo-bar-fill{height:100%;border-radius:3px;background:var(--ink);}
@@ -162,9 +196,6 @@ input{font-size:16px !important;}
 .action-btn:hover{border-color:#aaa;background:#f2f1ee;}
 
 .divider{height:1px;background:var(--line);margin:4px 0 22px;}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 
 @keyframes up{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 .wrap>*{animation:up .3s ease both;}
@@ -181,7 +212,7 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 <h1>Rozpočet</h1>
 <p class="sub">Rozlož celou výplatu — nic nezůstane volně na účtu.</p>
 
-<!-- Month nav: Měsíc / Rok — no badge -->
+<!-- Month nav: Měsíc / Rok -->
 <div class="month-nav">
   <select id="sel-month"></select>
   <span class="sep">/</span>
@@ -189,27 +220,34 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 </div>
 
 <!-- Salary -->
-<div class="info-row" style="gap:8px;">
-  <span class="info-label" style="flex:none;">Čistá měsíční mzda</span>
-  <input class="info-val big" type="number" id="salary" placeholder="45000" oninput="saveAndRecalc()" style="flex:1;min-width:0;text-align:right;">
-  <span class="info-unit" style="flex:none;">Kč</span>
+<div class="info-row">
+  <span class="info-label">Čistá měsíční mzda</span>
+  <input class="info-val" type="number" id="salary" placeholder="45000" oninput="saveAndRecalc()">
+  <span class="info-unit">Kč</span>
 </div>
 
 <!-- Carry -->
 <div class="info-row" id="carry-row">
-  <span class="info-label">Z min. měsíce</span>
+  <span class="info-label">Z minulého měsíce</span>
   <input class="info-val" type="number" id="carry" placeholder="0" oninput="onCarryInput()">
   <span class="info-unit">Kč</span>
 </div>
 
-<!-- Savings account balance (informative) -->
+<!-- Cash -->
+<div class="info-row" id="cash-row">
+  <span class="info-label">Hotovost</span>
+  <input class="info-val" type="number" id="cash" placeholder="0" oninput="saveAndRecalc()">
+  <span class="info-unit">Kč</span>
+</div>
+
+<!-- Savings -->
 <div class="info-row savings-row" style="margin-bottom:22px;">
-  <span class="info-label">Zůstatek — spořicí účet</span>
+  <span class="info-label">Spořicí účet</span>
   <input class="info-val" type="number" id="savings-bal" placeholder="0" oninput="saveAndRecalc()">
   <span class="info-unit">Kč</span>
 </div>
 
-<!-- Progress bar -->
+<!-- Progress -->
 <div class="prog-wrap">
   <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
   <div class="prog-meta">
@@ -221,9 +259,9 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 <!-- Fixed expenses -->
 <div class="sec">
   <div class="sec-head">
-    <span class="sec-title">Fixní výdaje <span class="tag-fixed">pravidelné</span> <span class="exp-pct" id="pct-fixed"></span></span>
+    <span class="sec-title">Fixní výdaje <span class="tag-fixed">pravidelné</span><span class="exp-pct" id="pct-fixed"></span></span>
     <div style="display:flex;align-items:center;gap:7px;">
-      <button class="sort-btn on" id="sort-fixed-btn" onclick="toggleSort('fixed')">↓ výše</button>
+      <button class="sort-btn on" id="sort-fixed-btn" onclick="toggleSort('fixed')">↓</button>
       <span class="sec-sum" id="sum-fixed">0 Kč</span>
     </div>
   </div>
@@ -234,9 +272,9 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 <!-- Variable expenses -->
 <div class="sec">
   <div class="sec-head">
-    <span class="sec-title">Variabilní výdaje <span class="tag-var">nepravidelné</span> <span class="exp-pct" id="pct-var"></span></span>
+    <span class="sec-title">Variabilní výdaje <span class="tag-var">nepravidelné</span><span class="exp-pct" id="pct-var"></span></span>
     <div style="display:flex;align-items:center;gap:7px;">
-      <button class="sort-btn on" id="sort-var-btn" onclick="toggleSort('var')">↓ výše</button>
+      <button class="sort-btn on" id="sort-var-btn" onclick="toggleSort('var')">↓</button>
       <span class="sec-sum" id="sum-var">0 Kč</span>
     </div>
   </div>
@@ -244,27 +282,28 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
   <button class="add-btn" onclick="addExp('var')">+ přidat variabilní výdaj</button>
 </div>
 
-<!-- Allocation -->
+<!-- Investování -->
 <div class="sec">
   <div class="sec-head">
-    <span class="sec-title">Rozdělení zbytku</span>
-    <div style="display:flex;align-items:center;gap:7px;">
-      <button class="auto-btn" onclick="autoDistribute()" id="auto-btn">
-        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 6A4 4 0 1 1 6 2"/><path d="M10 2v4h-4"/></svg>
-        auto
-      </button>
-      <span class="sec-sum" id="sum-alloc">0 Kč</span>
+    <span class="sec-title" id="invest-title">Investování</span>
+    <div class="invest-head-right">
+      <span class="invest-rest-lbl">k rozdělení</span>
+      <span class="sec-sum" id="invest-rest-val">0 Kč</span>
     </div>
   </div>
 
-  <!-- Zbytek k rozdělení — presets only, editable -->
-  <div class="rest-bar">
-    <div class="rest-bar-label" style="font-size:11px;letter-spacing:.07em;text-transform:uppercase;">Zbytek k rozdělení <span id="rest-pct-lbl" style="color:var(--ink);font-weight:700;margin-left:2px;"></span></div>
-    <div class="rest-bar-pcts" id="split-presets"></div>
-  </div>
+  <!-- Split presets -->
+  <div class="preset-row" id="split-presets"></div>
 
+  <!-- Alloc rows -->
   <div class="alloc-outer" id="alloc-list"></div>
   <button class="add-btn" style="margin-top:4px" onclick="addAlloc()">+ přidat kategorii</button>
+
+  <!-- Nerozděleno -->
+  <div class="alloc-leftover" id="alloc-leftover-bar">
+    <span class="alloc-leftover-lbl">Nerozděleno</span>
+    <span class="alloc-leftover-val" id="alloc-leftover-val">0 Kč</span>
+  </div>
 </div>
 
 <!-- Summary -->
@@ -299,93 +338,85 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
   </button>
 </div>
 
-</div><!-- .wrap -->
+</div>
 <script>
 // ══════════════════════════════════════════════════
-// CONSTANTS & STATE
+// CONSTANTS
 // ══════════════════════════════════════════════════
 const MO=['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
 const DC=['d0','d1','d2','d3','d4','d5'];
 
-// Editable split presets stored in localStorage
-const DEFAULT_SPLIT_PRESETS=[
-  {label:'vše první',pcts:[100,0,0]},
-  {label:'50/50',pcts:[50,50,0]},
-  {label:'33/33/34',pcts:[33,33,34]},
-  {label:'60/30/10',pcts:[60,30,10]},
-  {label:'80/15/5',pcts:[80,15,5]},
+// ── Split presets ──
+const DEF_PRESETS=[
+  {label:'50/50',    pcts:[50,50,0]},
+  {label:'33/33/34', pcts:[33,33,34]},
+  {label:'60/30/10', pcts:[60,30,10]},
+  {label:'80/15/5',  pcts:[80,15,5]},
 ];
-function loadSplitPresets(){try{const r=localStorage.getItem('rb_split_presets');if(r)return JSON.parse(r);}catch(e){}return JSON.parse(JSON.stringify(DEFAULT_SPLIT_PRESETS));}
-function saveSplitPresets(ps){localStorage.setItem('rb_split_presets',JSON.stringify(ps));}
-let splitPresets=loadSplitPresets();
+function loadPresets(){try{const r=localStorage.getItem('rb_sp');if(r)return JSON.parse(r);}catch(e){}return JSON.parse(JSON.stringify(DEF_PRESETS));}
+function savePresets(ps){localStorage.setItem('rb_sp',JSON.stringify(ps));}
+let splitPresets=loadPresets();
 
 function renderSplitPresets(){
-  const c=document.getElementById('split-presets');
-  c.innerHTML='';
+  const c=document.getElementById('split-presets');c.innerHTML='';
   splitPresets.forEach((pr,i)=>{
-    const btn=document.createElement('button');
-    btn.className='rest-preset';
+    const btn=document.createElement('button');btn.className='rest-preset';
     btn.onclick=()=>applySplitPreset(pr.pcts);
-    // editable label on dblclick
-    const lbl=document.createElement('span');
-    lbl.textContent=pr.label;
+    const lbl=document.createElement('span');lbl.textContent=pr.label;
     lbl.title='Dvojklik pro přejmenování';
     lbl.ondblclick=(e)=>{
       e.stopPropagation();
       const inp=document.createElement('input');
-      inp.value=pr.label;inp.style.cssText='border:none;background:transparent;font:inherit;width:'+(pr.label.length+1)+'ch;outline:none;';
-      inp.onblur=()=>{pr.label=inp.value||pr.label;saveSplitPresets(splitPresets);renderSplitPresets();};
+      inp.value=pr.label;
+      inp.style.cssText='border:none;background:transparent;font-size:11px !important;width:'+(pr.label.length+2)+'ch;outline:none;';
+      inp.onblur=()=>{pr.label=inp.value.trim()||pr.label;savePresets(splitPresets);renderSplitPresets();};
       inp.onkeydown=(ev)=>{if(ev.key==='Enter')inp.blur();if(ev.key==='Escape'){inp.value=pr.label;inp.blur();}};
       lbl.replaceWith(inp);inp.focus();inp.select();
     };
-    const del=document.createElement('button');
-    del.className='rest-preset-del';del.textContent='×';del.title='Smazat';
-    del.onclick=(e)=>{e.stopPropagation();splitPresets.splice(i,1);saveSplitPresets(splitPresets);renderSplitPresets();};
-    btn.appendChild(lbl);btn.appendChild(del);
-    c.appendChild(btn);
+    const del=document.createElement('button');del.className='rest-preset-del';del.textContent='×';
+    del.onclick=(e)=>{e.stopPropagation();splitPresets.splice(i,1);savePresets(splitPresets);renderSplitPresets();};
+    btn.appendChild(lbl);btn.appendChild(del);c.appendChild(btn);
   });
-  // Add new preset — inline (no prompt, works on iOS)
-  const add=document.createElement('button');
-  add.className='rest-preset-add';add.textContent='+ přidat';
+  // inline add
+  const add=document.createElement('button');add.className='rest-preset-add';add.textContent='+ přidat';
   add.onclick=()=>{
-    // Replace button with two inline inputs
     const wrap=document.createElement('span');
     wrap.style.cssText='display:inline-flex;align-items:center;gap:4px;';
-    const iLabel=document.createElement('input');
-    iLabel.placeholder='název';iLabel.style.cssText='border:1px solid var(--line);border-radius:4px;font:inherit;font-size:11px;width:70px;padding:2px 5px;outline:none;';
-    const iPcts=document.createElement('input');
-    iPcts.placeholder='50/50';iPcts.style.cssText='border:1px solid var(--line);border-radius:4px;font:inherit;font-size:11px;width:54px;padding:2px 5px;outline:none;';
+    const iL=document.createElement('input');
+    iL.placeholder='název';
+    iL.style.cssText='border:1px solid var(--line);border-radius:4px;font-size:11px !important;width:64px;padding:2px 5px;outline:none;background:var(--white);';
+    const iP=document.createElement('input');
+    iP.placeholder='50/50';
+    iP.style.cssText='border:1px solid var(--line);border-radius:4px;font-size:11px !important;width:52px;padding:2px 5px;outline:none;background:var(--white);';
     const ok=document.createElement('button');
-    ok.textContent='✓';ok.style.cssText='background:none;border:1px solid var(--line);border-radius:4px;cursor:pointer;font-size:11px;padding:2px 6px;';
+    ok.textContent='✓';ok.style.cssText='background:none;border:1px solid var(--line);border-radius:4px;cursor:pointer;font-size:11px;padding:2px 5px;font-family:inherit;';
     ok.onclick=()=>{
-      const label=iLabel.value.trim()||iPcts.value.trim();
-      const pcts=iPcts.value.split('/').map(Number).filter(n=>!isNaN(n)&&n>0);
-      if(label&&pcts.length){splitPresets.push({label,pcts});saveSplitPresets(splitPresets);}
+      const label=iL.value.trim()||iP.value.trim();
+      const pcts=iP.value.split('/').map(Number).filter(n=>!isNaN(n)&&n>=0);
+      if(label&&pcts.length){splitPresets.push({label,pcts});savePresets(splitPresets);}
       renderSplitPresets();
     };
-    const cancel=document.createElement('button');
-    cancel.textContent='×';cancel.style.cssText='background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 2px;';
-    cancel.onclick=()=>renderSplitPresets();
-    wrap.appendChild(iLabel);wrap.appendChild(iPcts);wrap.appendChild(ok);wrap.appendChild(cancel);
-    add.replaceWith(wrap);
-    iLabel.focus();
+    const cx=document.createElement('button');
+    cx.textContent='×';cx.style.cssText='background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:0 2px;font-family:inherit;';
+    cx.onclick=()=>renderSplitPresets();
+    wrap.appendChild(iL);wrap.appendChild(iP);wrap.appendChild(ok);wrap.appendChild(cx);
+    add.replaceWith(wrap);iL.focus();
   };
   c.appendChild(add);
 }
 
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
 let curY,curM;
 let sortFixed=true,sortVar=true;
 let eId=100,aId=100;
-let data=null; // { salary, carry, savingsBal, expenses:[{id,n,a,type}], allocs:[{id,n,fixAmt,splitPct,dc}] }
+let data=null;
 
-// ══════════════════════════════════════════════════
-// STORAGE
-// ══════════════════════════════════════════════════
 const sk=(y,m)=>`rb_${y}_${String(m).padStart(2,'0')}`;
-
 function loadMonth(y,m){
   try{const r=localStorage.getItem(sk(y,m));if(r)return JSON.parse(r);}catch(e){}
-  return {salary:0,carry:0,savingsBal:0,expenses:[],allocs:defaultAllocs()};
+  return {salary:0,carry:0,cash:0,savingsBal:0,expenses:[],allocs:defaultAllocs()};
 }
 function saveMonth(y,m,d){localStorage.setItem(sk(y,m),JSON.stringify(d));}
 
@@ -403,19 +434,24 @@ function defaultAllocs(){
 function init(){
   const now=new Date(); curY=now.getFullYear(); curM=now.getMonth();
 
-  // Měsíc / Rok order
+  // Měsíc — all uppercase in option text
   const ms=document.getElementById('sel-month');
-  MO.forEach((n,i)=>{const o=document.createElement('option');o.value=i;o.textContent=n;ms.appendChild(o);});
+  MO.forEach((n,i)=>{
+    const o=document.createElement('option');
+    o.value=i;o.textContent=n.toUpperCase();ms.appendChild(o);
+  });
   ms.value=curM; ms.onchange=()=>{curM=+ms.value;switchMonth();};
 
+  // Rok — from current year
   const ys=document.getElementById('sel-year');
-  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){
+  for(let y=curY;y<=curY+5;y++){
     const o=document.createElement('option');o.value=y;o.textContent=y;ys.appendChild(o);
   }
   ys.value=curY; ys.onchange=()=>{curY=+ys.value;switchMonth();};
 
+  // Year overview selector
   const yo=document.getElementById('year-sel');
-  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){
+  for(let y=curY;y<=curY+5;y++){
     const o=document.createElement('option');o.value=y;o.textContent=y;yo.appendChild(o);
   }
   yo.value=curY;
@@ -428,45 +464,33 @@ function switchMonth(){
   document.getElementById('sel-month').value=curM;
   document.getElementById('sel-year').value=curY;
   data=loadMonth(curY,curM);
+  if(!data.cash)data.cash=0;
   data.expenses.forEach(e=>{if(e.id>=eId)eId=e.id+1;});
-  data.allocs.forEach(a=>{if(a.id>=aId)aId=a.id+1;});
-  // migrate old data: add splitPct if missing
-  data.allocs.forEach(a=>{if(a.splitPct===undefined)a.splitPct=Math.floor(100/data.allocs.length);});
-  updateCarryBadge();
+  data.allocs.forEach(a=>{if(a.id>=aId)aId=a.id+1;if(a.splitPct===undefined)a.splitPct=0;});
+  autoCarryFromPrev();
   renderAll();
   renderYearOverview();
 }
 
-function updateCarryBadge(){
-  let py=curY,pm=curM-1; if(pm<0){pm=11;py--;}
+function autoCarryFromPrev(){
+  let py=curY,pm=curM-1;if(pm<0){pm=11;py--;}
   const prev=loadMonth(py,pm);
   const res=computeSummary(prev);
-
-  // Auto-fill carry from previous month leftover
-  if((+data.carry||0)===0 && Math.round(res.leftover)!==0 && (prev.salary||prev.expenses.length)){
-    data.carry=Math.round(res.leftover);
-    document.getElementById('carry').value=data.carry;
-    updateCarryRowColor();
-    saveMonth(curY,curM,data);
+  let changed=false;
+  if((+data.carry||0)===0&&Math.round(res.leftover)!==0&&(prev.salary||prev.expenses.length)){
+    data.carry=Math.round(res.leftover);changed=true;
   }
-
-  // Auto-fill savingsBal from previous month
-  if((!data.savingsBal||data.savingsBal===0) && (prev.savingsBal||0)!==0){
-    data.savingsBal=prev.savingsBal;
-    document.getElementById('savings-bal').value=data.savingsBal;
-    saveMonth(curY,curM,data);
+  if((!data.savingsBal||data.savingsBal===0)&&(prev.savingsBal||0)!==0){
+    data.savingsBal=prev.savingsBal;changed=true;
   }
-
-  // Auto-carry expenses from prev month if current has none
-  if(data.expenses.length===0 && prev.expenses && prev.expenses.length>0){
-    data.expenses=prev.expenses.map(e=>({
-      ...e,
-      id:++eId,
-      // variabilní: keep name, clear amount
-      a: e.type==='var' ? 0 : e.a
-    }));
-    saveMonth(curY,curM,data);
+  if((!data.cash||data.cash===0)&&(prev.cash||0)!==0){
+    data.cash=prev.cash;changed=true;
   }
+  if(data.expenses.length===0&&prev.expenses&&prev.expenses.length>0){
+    data.expenses=prev.expenses.map(e=>({...e,id:++eId,a:e.type==='var'?0:e.a}));
+    changed=true;
+  }
+  if(changed)saveMonth(curY,curM,data);
 }
 
 // ══════════════════════════════════════════════════
@@ -475,6 +499,7 @@ function updateCarryBadge(){
 function renderAll(){
   document.getElementById('salary').value=data.salary||'';
   document.getElementById('carry').value=data.carry||'';
+  document.getElementById('cash').value=data.cash||'';
   document.getElementById('savings-bal').value=data.savingsBal||'';
   updateCarryRowColor();
   renderExpenses('fixed');
@@ -487,14 +512,12 @@ function renderAll(){
 // EXPENSES
 // ══════════════════════════════════════════════════
 function renderExpenses(type){
-  const listId=type==='fixed'?'fixed-list':'var-list';
-  const list=document.getElementById(listId);
+  const list=document.getElementById(type==='fixed'?'fixed-list':'var-list');
   let items=data.expenses.filter(e=>e.type===type);
-  if(type==='fixed'?sortFixed:sortVar) items=[...items].sort((a,b)=>b.a-a.a);
+  if(type==='fixed'?sortFixed:sortVar)items=[...items].sort((a,b)=>b.a-a.a);
   list.innerHTML='';
   items.forEach(e=>{
-    const row=document.createElement('div');
-    row.className='item';row.id='ei'+e.id;
+    const row=document.createElement('div');row.className='item';row.id='ei'+e.id;
     row.innerHTML=`
       <input class="item-name" type="text" placeholder="Název" value="${esc(e.n)}"
         oninput="updExpName(${e.id},this.value)">
@@ -519,34 +542,27 @@ function delExp(id){
   data.expenses=data.expenses.filter(x=>x.id!==id);
   saveAndRecalc();renderExpenses('fixed');renderExpenses('var');
 }
-function moveExpType(id){
-  const e=data.expenses.find(x=>x.id===id);if(!e)return;
-  e.type=e.type==='fixed'?'var':'fixed';
-  saveAndRecalc();renderExpenses('fixed');renderExpenses('var');
-}
 function toggleSort(type){
-  if(type==='fixed')sortFixed=!sortFixed; else sortVar=!sortVar;
+  if(type==='fixed')sortFixed=!sortFixed;else sortVar=!sortVar;
   document.getElementById('sort-'+type+'-btn').classList.toggle('on',type==='fixed'?sortFixed:sortVar);
   renderExpenses(type);
 }
 
 // ══════════════════════════════════════════════════
 // ALLOCS
-// Logic:
-//   free = salary + carry - expenses
-//   fixTotal = sum of alloc.fixAmt
-//   rest = max(0, free - fixTotal)   ← zbytek k rozdělení
-//   each alloc gets: fixAmt + round(rest * splitPct/100)
-//   total alloc = fixTotal + rest (if splitPcts sum to 100)
+// free = salary+carry - expenses
+// fixTotal = sum fixAmt  (odečteno hned)
+// rest = max(0, free - fixTotal)  ← k rozdělení zbytkem
+// each alloc = fixAmt + round(rest * splitPct/100)
+// nerozděleno = rest - bonusTotal
 // ══════════════════════════════════════════════════
 function calcFree(){
-  const sal=(+document.getElementById('salary').value||0)+(+document.getElementById('carry').value||0);
+  const sal=(+document.getElementById('salary').value||0)
+           +(+document.getElementById('carry').value||0);
   return sal-data.expenses.reduce((s,e)=>s+e.a,0);
 }
 function calcRest(){
-  const free=calcFree();
-  const fixTotal=data.allocs.reduce((s,a)=>s+(+a.fixAmt||0),0);
-  return Math.max(0,free-fixTotal);
+  return Math.max(0,calcFree()-data.allocs.reduce((s,a)=>s+(+a.fixAmt||0),0));
 }
 
 function renderAllocs(){
@@ -554,31 +570,27 @@ function renderAllocs(){
   const free=calcFree();
   const fixTotal=data.allocs.reduce((s,a)=>s+(+a.fixAmt||0),0);
   const rest=Math.max(0,free-fixTotal);
-
   data.allocs.forEach(a=>{
     const bonus=Math.round(rest*(+a.splitPct||0)/100);
-    const total=(+a.fixAmt||0)+bonus;
-    const row=document.createElement('div');
-    row.className='alloc-row';row.id='ai'+a.id;
+    const row=document.createElement('div');row.className='alloc-row';row.id='ai'+a.id;
     row.innerHTML=`
-      <div class="a-dot ${a.dc}"></div>
       <div class="a-name-col">
         <input class="a-name" type="text" value="${esc(a.n)}"
           oninput="updAllocName(${a.id},this.value)">
-        <span class="a-sub" id="asub${a.id}">${fmtAlloc(a.fixAmt,bonus,rest)}</span>
+        <span class="a-sub" id="asub${a.id}">${fmtSub(a.fixAmt,bonus,rest)}</span>
       </div>
-      <div class="a-ctrl">
-        <div class="a-fix-wrap">
-          <span class="a-fix-label">fix</span>
-          <input class="a-fix-in" type="number" placeholder="0" value="${a.fixAmt||''}"
+      <div class="a-col">
+        <span class="a-col-lbl">fix Kč</span>
+        <div class="a-inp-row">
+          <input class="a-inp" type="number" placeholder="0" value="${a.fixAmt||''}"
             oninput="updAllocFix(${a.id},+this.value)">
-          <span class="a-fix-unit">Kč</span>
         </div>
-        <div class="a-split-wrap">
-          <span class="a-split-label">zbytek</span>
-          <input class="a-split-in" type="number" min="0" max="100" placeholder="0" value="${a.splitPct||''}"
+      </div>
+      <div class="a-col">
+        <span class="a-col-lbl">zbytek %</span>
+        <div class="a-inp-row">
+          <input class="a-inp" type="number" min="0" max="100" placeholder="0" value="${a.splitPct||''}"
             oninput="updAllocSplit(${a.id},+this.value)">
-          <span class="a-split-unit">%</span>
         </div>
       </div>
       <button class="del" onclick="delAlloc(${a.id})">×</button>`;
@@ -586,91 +598,83 @@ function renderAllocs(){
   });
 }
 
-function fmtAlloc(fix,bonus,rest){
+function fmtSub(fix,bonus,rest){
   const f=+fix||0;
-  if(f===0&&bonus===0) return '0 Kč';
-  if(rest===0||bonus===0) return fmt(f);
+  if(f===0&&bonus===0)return '0 Kč';
+  if(rest===0||bonus===0)return fmt(f);
   return `${fmt(f)} + ${fmt(bonus)} = ${fmt(f+bonus)}`;
 }
 
 function updAllocName(id,v){const a=data.allocs.find(x=>x.id===id);if(a)a.n=v;saveAndRecalc();}
-function updAllocFix(id,v){const a=data.allocs.find(x=>x.id===id);if(a)a.fixAmt=Math.max(0,v);saveAndRecalc();refreshAllocSubs();}
-function updAllocSplit(id,v){const a=data.allocs.find(x=>x.id===id);if(a)a.splitPct=Math.max(0,Math.min(100,v));saveAndRecalc();refreshAllocSubs();}
+function updAllocFix(id,v){const a=data.allocs.find(x=>x.id===id);if(a)a.fixAmt=Math.max(0,v||0);saveAndRecalc();refreshAllocSubs();}
+function updAllocSplit(id,v){const a=data.allocs.find(x=>x.id===id);if(a)a.splitPct=Math.max(0,Math.min(100,v||0));saveAndRecalc();refreshAllocSubs();}
 
 function refreshAllocSubs(){
   const rest=calcRest();
   data.allocs.forEach(a=>{
     const bonus=Math.round(rest*(+a.splitPct||0)/100);
     const el=document.getElementById('asub'+a.id);
-    if(el)el.textContent=fmtAlloc(a.fixAmt,bonus,rest);
+    if(el)el.textContent=fmtSub(a.fixAmt,bonus,rest);
   });
 }
 
 function addAlloc(){
-  if(!data) return;
-  if(!data.allocs) data.allocs=[];
+  if(!data||!data.allocs)return;
   data.allocs.push({id:++aId,n:'Nová kategorie',fixAmt:0,splitPct:0,dc:DC[data.allocs.length%6]});
-  saveAndRecalc();
-  renderAllocs();
-  // focus the new name input
-  const last=document.querySelector('#ai'+data.allocs[data.allocs.length-1].id+' .a-name');
-  if(last){last.focus();last.select();}
+  saveAndRecalc();renderAllocs();
+  const last=data.allocs[data.allocs.length-1];
+  const el=document.querySelector('#ai'+last.id+' .a-name');
+  if(el){el.focus();el.select();}
 }
 function delAlloc(id){
   data.allocs=data.allocs.filter(a=>a.id!==id);
   saveAndRecalc();renderAllocs();
 }
-
-// Auto: set fixAmts to 0 and distribute 100% equally via splitPct
-function autoDistribute(){
-  const n=data.allocs.length;if(!n)return;
-  const base=Math.floor(100/n);
-  data.allocs.forEach((a,i)=>{a.splitPct=i===n-1?100-(base*(n-1)):base;});
-  saveAndRecalc();renderAllocs();
-  const btn=document.getElementById('auto-btn');
-  if(btn){btn.style.color='var(--green)';setTimeout(()=>btn.style.color='',900);}
-}
-
-// Apply split preset: distribute percentages across allocs by splitPct
 function applySplitPreset(pcts){
   data.allocs.forEach((a,i)=>{a.splitPct=pcts[i]!==undefined?pcts[i]:0;});
   saveAndRecalc();renderAllocs();
 }
 
 // ══════════════════════════════════════════════════
-// RECALC (display)
+// RECALC
 // ══════════════════════════════════════════════════
 function recalc(){
   const salary=+document.getElementById('salary').value||0;
   const carry=+document.getElementById('carry').value||0;
+  const cash=+document.getElementById('cash').value||0;
   const savBal=+document.getElementById('savings-bal').value||0;
   const sal=salary+carry;
   const fixedExp=data.expenses.filter(e=>e.type==='fixed').reduce((s,e)=>s+e.a,0);
-  const varExp  =data.expenses.filter(e=>e.type==='var'  ).reduce((s,e)=>s+e.a,0);
+  const varExp=data.expenses.filter(e=>e.type==='var').reduce((s,e)=>s+e.a,0);
   const exp=fixedExp+varExp;
   const free=sal-exp;
   const fixAlloc=data.allocs.reduce((s,a)=>s+(+a.fixAmt||0),0);
   const rest=Math.max(0,free-fixAlloc);
   const splitSum=data.allocs.reduce((s,a)=>s+(+a.splitPct||0),0);
-  const splitUsed=Math.min(100,splitSum);
-  const bonusTotal=Math.round(rest*splitUsed/100);
+  const bonusTotal=Math.round(rest*Math.min(100,splitSum)/100);
   const allocTotal=fixAlloc+bonusTotal;
-  const leftover=sal-exp-allocTotal;
+  const nerozdel=rest-bonusTotal;
 
-  // Expense % badges
-  const fpEl=document.getElementById('pct-fixed'),fvEl=document.getElementById('pct-var');
-  if(fpEl)fpEl.textContent=sal>0?Math.round(fixedExp/sal*100)+'%':'';
-  if(fvEl)fvEl.textContent=sal>0?Math.round(varExp/sal*100)+'%':'';
-
+  // Expense %
+  document.getElementById('pct-fixed').textContent=sal>0?' '+Math.round(fixedExp/sal*100)+'%':'';
+  document.getElementById('pct-var').textContent=sal>0?' '+Math.round(varExp/sal*100)+'%':'';
   document.getElementById('sum-fixed').textContent=fmt(fixedExp);
   document.getElementById('sum-var').textContent=fmt(varExp);
-  document.getElementById('sum-alloc').textContent=fmt(allocTotal);
 
-  // Rest bar + auto btn
-  document.getElementById('rest-pct-lbl').textContent=splitSum>0?splitSum+'%':'';
+  // Investování header
+  document.getElementById('invest-title').textContent='Investování'+(splitSum>0?' — '+splitSum+'%':'');
+  document.getElementById('invest-rest-val').textContent=fmt(Math.max(0,rest));
 
-  // Alloc sub-labels
   refreshAllocSubs();
+
+  // Nerozděleno bar
+  const lv=document.getElementById('alloc-leftover-val');
+  const lb=document.getElementById('alloc-leftover-bar');
+  if(lv){
+    lv.textContent=fmt(Math.max(0,nerozdel));
+    lv.style.color=nerozdel<=0?'var(--green)':'var(--ink)';
+  }
+  if(lb)lb.style.borderColor=nerozdel<=0?'#8fe0a060':'';
 
   // Progress
   const spoken=exp+allocTotal;
@@ -679,30 +683,29 @@ function recalc(){
   fill.style.width=pct+'%';fill.classList.toggle('over',spoken>sal);
   document.getElementById('pm-alloc').textContent=fmt(spoken);
   const restEl=document.getElementById('pm-rest');
-  if(leftover>=0)restEl.innerHTML=`zbývá: <b>${fmt(leftover)}</b>`;
-  else restEl.innerHTML=`<span class="warn">překročeno o ${fmt(-leftover)}</span>`;
+  if(sal-spoken>=0)restEl.innerHTML=`zbývá: <b>${fmt(sal-spoken)}</b>`;
+  else restEl.innerHTML=`<span class="warn">překročeno o ${fmt(spoken-sal)}</span>`;
 
-  // Summary — all rows uniform, no special last-child treatment
-  let rows=[{l:'Mzda',v:salary,cls:''}];
-  if(carry)rows.push({l:'Z min. měsíce',v:carry,cls:carry>=0?'pos':'neg'});
-  if(fixedExp)rows.push({l:'Fixní výdaje',v:-fixedExp,cls:'neg'});
-  if(varExp)rows.push({l:'Variabilní výdaje',v:-varExp,cls:'neg'});
-  data.allocs.forEach(a=>{
-    const bonus=Math.round(rest*(+a.splitPct||0)/100);
-    const total=(+a.fixAmt||0)+bonus;
-    if(total)rows.push({l:a.n,v:-total,sub:a.fixAmt&&bonus?`${fmt(+a.fixAmt)} fix + ${fmt(bonus)} zbytek`:null});
-  });
-  rows.push({l:'Nerozděleno',v:leftover,cls:leftover>=0?'pos':'neg'});
-  if(savBal){
-    const savAlloc=data.allocs.filter(a=>a.n.toLowerCase().includes('spořen')||a.n.toLowerCase().includes('rezerv'))
-      .reduce((s,a)=>{const b=Math.round(rest*(+a.splitPct||0)/100);return s+(+a.fixAmt||0)+b;},0);
-    rows.push({l:'Spořicí účet'+(savAlloc?` (+${fmt(savAlloc)})`:''),v:savBal+savAlloc,cls:'pos',green:true});
-  }
+  // Summary — Příjem, Výdaje, Spoření, Zainvestováno, Hotovost, Spořicí účet
+  const sporAllocs=data.allocs.filter(a=>a.n.toLowerCase().includes('spořen')||a.n.toLowerCase().includes('rezerv'));
+  const invAllocs=data.allocs.filter(a=>!a.n.toLowerCase().includes('spořen')&&!a.n.toLowerCase().includes('rezerv'));
+  const sporTotal=sporAllocs.reduce((s,a)=>{const b=Math.round(rest*(+a.splitPct||0)/100);return s+(+a.fixAmt||0)+b;},0);
+  const invTotal=invAllocs.reduce((s,a)=>{const b=Math.round(rest*(+a.splitPct||0)/100);return s+(+a.fixAmt||0)+b;},0);
+  const projSav=savBal+sporTotal;
+
+  const rows=[
+    {l:'Příjem',  v:fmt(sal),      cls:'green',hl:'hl-green'},
+    {l:'Výdaje',  v:fmt(exp),      cls:'red',  hl:'hl-red'},
+    sporTotal>0?{l:'Spoření',       v:fmt(sporTotal),cls:'muted'}:null,
+    invTotal>0 ?{l:'Zainvestováno', v:fmt(invTotal), cls:'muted'}:null,
+    cash>0     ?{l:'Hotovost',      v:fmt(cash),     cls:'muted'}:null,
+    savBal>0   ?{l:'Spořicí účet',  v:fmt(projSav),  cls:'green',hl:'hl-green'}:null,
+  ].filter(Boolean);
 
   document.getElementById('summary').innerHTML=rows.map(r=>`
-    <div class="s-row">
-      <span class="s-lbl" ${r.green?'style="color:#7fc88a"':''}>${r.l}${r.sub?`<br><span class="s-indent" style="font-size:11px;">${r.sub}</span>`:''}</span>
-      <span class="s-val ${r.cls||''}">${r.v>=0?'+':''}${fmt(Math.abs(r.v))}</span>
+    <div class="s-row ${r.hl||''}">
+      <span class="s-lbl ${r.cls==='green'?'green':r.cls==='red'?'red':'gray'}">${r.l}</span>
+      <span class="s-val ${r.cls}">${r.v}</span>
     </div>`).join('');
 }
 
@@ -726,25 +729,22 @@ function computeSummary(d){
 // SAVE
 // ══════════════════════════════════════════════════
 function saveAndRecalc(){
+  if(!data)return;
   data.salary=+document.getElementById('salary').value||0;
   data.carry=+document.getElementById('carry').value||0;
+  data.cash=+document.getElementById('cash').value||0;
   data.savingsBal=+document.getElementById('savings-bal').value||0;
   saveMonth(curY,curM,data);
   updateCarryRowColor();
   recalc();
 }
-
-function onCarryInput(){
-  updateCarryRowColor();
-  saveAndRecalc();
-}
-
+function onCarryInput(){updateCarryRowColor();saveAndRecalc();}
 function updateCarryRowColor(){
   const v=+document.getElementById('carry').value||0;
   const row=document.getElementById('carry-row');
   row.classList.remove('carry-pos','carry-neg');
-  if(v>0) row.classList.add('carry-pos');
-  else if(v<0) row.classList.add('carry-neg');
+  if(v>0)row.classList.add('carry-pos');
+  else if(v<0)row.classList.add('carry-neg');
 }
 
 // ══════════════════════════════════════════════════
@@ -752,20 +752,22 @@ function updateCarryRowColor(){
 // ══════════════════════════════════════════════════
 function renderYearOverview(){
   const y=+document.getElementById('year-sel').value;
+  const now=new Date();const nowY=now.getFullYear();const nowM=now.getMonth();
   const grid=document.getElementById('year-grid');grid.innerHTML='';
   for(let m=0;m<12;m++){
+    const isFuture=(y>nowY)||(y===nowY&&m>nowM);
+    const isCur=(y===curY&&m===curM);
     const md=loadMonth(y,m);
     const hasData=md.salary||md.expenses.length;
     const res=computeSummary(md);
-    const isCur=(y===curY&&m===curM);
     const cell=document.createElement('div');
-    cell.className='mo-cell'+(isCur?' current':'');
+    cell.className='mo-cell'+(isCur?' current':'')+(isFuture&&!hasData?' future':'');
     const barPct=res.sal>0?Math.min(100,res.exp/res.sal*100):0;
     const v=Math.round(res.leftover);
     cell.innerHTML=`
       <div class="mo-name">${MO[m].substring(0,3).toUpperCase()}</div>
       <div class="mo-bar"><div class="mo-bar-fill" style="width:${barPct}%"></div></div>
-      <div class="mo-val ${!hasData?'':(v>=0?'pos':'neg')}">${hasData?(v>=0?'+':'')+fmtN(v):'–'}</div>`;
+      <div class="mo-val ${!hasData?'':(v>=0?'pos':'neg')}">${hasData?(v<0?'-':'')+fmtN(Math.abs(v)):'–'}</div>`;
     cell.onclick=()=>{curY=y;curM=m;switchMonth();window.scrollTo({top:0,behavior:'smooth'});};
     grid.appendChild(cell);
   }
@@ -783,20 +785,24 @@ function importData(e){
   const file=e.target.files[0];if(!file)return;
   const r=new FileReader();
   r.onload=ev=>{
-    try{const all=JSON.parse(ev.target.result);Object.entries(all).forEach(([k,v])=>{if(k.startsWith('rb_'))localStorage.setItem(k,JSON.stringify(v));});switchMonth();renderYearOverview();alert('Importováno.');}
-    catch(err){alert('Chyba: '+err.message);}
+    try{
+      const all=JSON.parse(ev.target.result);
+      Object.entries(all).forEach(([k,v])=>{if(k.startsWith('rb_'))localStorage.setItem(k,JSON.stringify(v));});
+      switchMonth();renderYearOverview();alert('Importováno.');
+    }catch(err){alert('Chyba: '+err.message);}
   };
   r.readAsText(file);e.target.value='';
 }
 function exportCSV(){
-  const rows=[['Rok','Měsíc','Mzda','Přebytek','Fixní výdaje','Variabilní výdaje','Alokace celkem','Nerozděleno','Spořicí účet']];
-  for(let y=new Date().getFullYear()-3;y<=new Date().getFullYear()+1;y++){
+  const rows=[['Rok','Měsíc','Mzda','Z min. měsíce','Fixní výdaje','Variabilní výdaje','Alokace','Nerozděleno','Hotovost','Spořicí účet']];
+  const nowY=new Date().getFullYear();
+  for(let y=nowY;y<=nowY+5;y++){
     for(let m=0;m<12;m++){
       const md=loadMonth(y,m);if(!md.salary&&!md.expenses.length)continue;
       const res=computeSummary(md);
       const fx=md.expenses.filter(e=>e.type==='fixed').reduce((s,e)=>s+e.a,0);
       const vr=md.expenses.filter(e=>e.type==='var').reduce((s,e)=>s+e.a,0);
-      rows.push([y,MO[m],md.salary||0,md.carry||0,fx,vr,Math.round(res.allocTotal),Math.round(res.leftover),md.savingsBal||0]);
+      rows.push([y,MO[m],md.salary||0,md.carry||0,fx,vr,Math.round(res.allocTotal),Math.round(res.leftover),md.cash||0,md.savingsBal||0]);
     }
   }
   dl('\uFEFF'+rows.map(r=>r.join(';')).join('\n'),'text/csv;charset=utf-8','rozpocet_'+td()+'.csv');
@@ -813,13 +819,9 @@ function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').repla
 
 init();
 
-// Prevent pinch-zoom on iOS Safari (ignores user-scalable=no in viewport)
-document.addEventListener('touchmove', function(e){
-  if(e.touches.length > 1) e.preventDefault();
-}, {passive: false});
-document.addEventListener('gesturestart', function(e){
-  e.preventDefault();
-}, {passive: false});
+// Prevent pinch-zoom iOS Safari
+document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault();},{passive:false});
+document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
 </script>
 </body>
 </html>
